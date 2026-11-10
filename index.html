@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Телетекст</title>
+<meta name="description" content="Македонски телетекст: време, курсна листа, горива, фудбал и лото, како на стариот телевизор.">
+<meta name="theme-color" content="#1a1918">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="preload" href="fonts/PressStart2P-Regular.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="tv">
+  <div class="screen"><canvas id="tt" role="img" aria-label="Телетекст екран"></canvas></div>
+</div>
+<div class="remote" aria-label="Далечински управувач">
+  <div class="digits">
+    <button data-d="1">1</button><button data-d="2">2</button><button data-d="3">3</button>
+    <button data-d="4">4</button><button data-d="5">5</button><button data-d="6">6</button>
+    <button data-d="7">7</button><button data-d="8">8</button><button data-d="9">9</button>
+    <button data-nav="-1" aria-label="Претходна страница">‹</button><button data-d="0">0</button><button data-nav="1" aria-label="Следна страница">›</button>
+  </div>
+  <div class="fn">
+    <button data-fn="hold" aria-label="Стоп, ги запира подстраниците">СТОП</button>
+    <button data-fn="size" aria-label="Зум, ја зголемува горната или долната половина">ЗУМ</button>
+    <button data-fn="reveal" aria-label="Откриј скриен текст">?</button>
+  </div>
+  <div class="fast">
+    <button class="r" aria-label="Време, страница 160"></button>
+    <button class="g" aria-label="Курс, страница 200"></button>
+    <button class="y" aria-label="Фудбал, страница 300"></button>
+    <button class="c" aria-label="Индекс, страница 100"></button>
+  </div>
+</div>
+<p class="hint">Внеси број на страница или притисни боја. ЗУМ ја зголемува половина од екранот.<br>
+Податоци: <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0), НБРМ, РКЕ,
+<a href="https://www.thesportsdb.com/">TheSportsDB</a>, Државна лотарија.</p>
+<div class="sr" id="sr" aria-live="polite"></div>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

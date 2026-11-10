@@ -1,0 +1,15 @@
+{
+  "name": "teletekst",
+  "private": true,
+  "type": "module",
+  "description": "Macedonian teletext in the browser: weather, rates, fuel, football, lotto",
+  "license": "MIT",
+  "scripts": {
+    "start": "python3 -m http.server 8123",
+    "update:weather": "node scripts/update-weather.mjs",
+    "update:daily": "node scripts/update-rates.mjs && node scripts/update-fuel.mjs && node scripts/update-lotto.mjs",
+    "update:football": "node scripts/update-football.mjs",
+    "check": "node scripts/check-sources.mjs",
+    "test": "node --test"
+  }
+}

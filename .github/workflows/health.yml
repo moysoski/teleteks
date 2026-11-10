@@ -1,0 +1,48 @@
+name: Source health check
+
+# Every morning: are all data sources reachable, still free and in the expected format,
+# and is data/ fresh? On failure an issue is opened (GitHub e-mails it); it is closed when all is well again.
+on:
+  schedule:
+    # 05:30 UTC = 06:30 / 07:30 in Skopje
+    - cron: '30 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Check sources
+        id: check
+        continue-on-error: true
+        env:
+          THESPORTSDB_KEY: ${{ secrets.THESPORTSDB_KEY }}
+          SUMMARY_FILE: summary.md
+        run: node scripts/check-sources.mjs
+      - name: Open, update or close the issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OUTCOME: ${{ steps.check.outcome }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create sources --color B60205 --description "Data source problems" --force
+          issue=$(gh issue list --label sources --state open --json number --jq '.[0].number')
+          printf '\n[Детали од проверката](%s)\n' "$RUN_URL" >> summary.md
+          if [ "$OUTCOME" = "success" ]; then
+            [ -n "$issue" ] && gh issue close "$issue" --comment "Сите извори повторно работат. $RUN_URL"
+          elif [ -n "$issue" ]; then
+            gh issue comment "$issue" --body-file summary.md
+          else
+            gh issue create --title "Проблем со извор на податоци" --label sources --body-file summary.md
+          fi
+      - name: Mark the run as failed
+        if: steps.check.outcome == 'failure'
+        run: exit 1

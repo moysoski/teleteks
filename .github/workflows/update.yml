@@ -1,0 +1,74 @@
+name: Update data (reusable)
+
+# Runs one or more data scripts, commits data/ if anything changed and deploys the site.
+# Called by weather.yml, daily.yml and football.yml.
+on:
+  workflow_call:
+    inputs:
+      scripts:
+        description: 'Space-separated script names in scripts/'
+        required: true
+        type: string
+      args:
+        description: 'Extra arguments for the scripts'
+        required: false
+        type: string
+        default: ''
+    secrets:
+      THESPORTSDB_KEY:
+        required: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    # one data commit at a time
+    concurrency:
+      group: data-commit
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run scripts
+        env:
+          SCRIPTS: ${{ inputs.scripts }}
+          ARGS: ${{ inputs.args }}
+          THESPORTSDB_KEY: ${{ secrets.THESPORTSDB_KEY }}
+        run: |
+          [[ "$SCRIPTS $ARGS" =~ ^[-a-z0-9.\ ]*$ ]] || { echo "invalid input"; exit 1; }
+          failed=0
+          for s in $SCRIPTS; do
+            echo "::group::$s"
+            node "scripts/$s" $ARGS || { echo "::error::$s failed"; failed=1; }
+            echo "::endgroup::"
+          done
+          echo "FAILED=$failed" >> "$GITHUB_ENV"
+      # the data commits also count as repository activity, which keeps scheduled
+      # workflows from being disabled after 60 days without commits
+      - name: Commit data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "Data: ${{ inputs.scripts }} $(TZ=Europe/Skopje date '+%F %H:%M')"
+            git pull --rebase
+            git push
+          fi
+      - name: Report failed scripts
+        if: env.FAILED == '1'
+        run: exit 1
+
+  # pushes made with GITHUB_TOKEN do not trigger other workflows, so deploy from here
+  deploy:
+    needs: update
+    if: ${{ !cancelled() }}
+    uses: ./.github/workflows/deploy.yml

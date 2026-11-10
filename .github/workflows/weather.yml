@@ -1,0 +1,23 @@
+name: Weather
+
+on:
+  schedule:
+    # 19:30 UTC = 20:30 / 21:30 in Skopje; GitHub often starts scheduled runs 10-30 min late
+    - cron: '30 19 * * *'
+  workflow_dispatch:
+    inputs:
+      backfill:
+        description: 'Backfill past days (0 = off, max 90)'
+        default: '0'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  run:
+    uses: ./.github/workflows/update.yml
+    with:
+      scripts: update-weather.mjs
+      args: ${{ inputs.backfill && inputs.backfill != '0' && format('--backfill {0}', inputs.backfill) || '' }}

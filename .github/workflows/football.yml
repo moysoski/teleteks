@@ -1,0 +1,20 @@
+name: Football
+
+on:
+  schedule:
+    # every 3 hours during the day (not live)
+    - cron: '15 9-21/3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  run:
+    uses: ./.github/workflows/update.yml
+    with:
+      scripts: update-football.mjs
+    secrets:
+      THESPORTSDB_KEY: ${{ secrets.THESPORTSDB_KEY }}

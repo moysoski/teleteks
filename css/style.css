@@ -1,0 +1,97 @@
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("../fonts/PressStart2P-Regular.ttf") format("truetype");
+  font-display: block;
+}
+
+:root {
+  --bg: #d9d6cf; --fg: #1d1c1a; --muted: #5c5952;
+  --remote: #2b2a28; --key: #45433f; --keyfg: #f2efe8; --bezel: #1a1918;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141414; --fg: #e8e5de; --muted: #9a968d;
+    --remote: #262524; --key: #3a3937; --keyfg: #f2efe8; --bezel: #050505;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141414; --fg: #e8e5de; --muted: #9a968d;
+  --remote: #262524; --key: #3a3937; --keyfg: #f2efe8; --bezel: #050505;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 12px calc(28px + env(safe-area-inset-bottom, 0px));
+}
+
+.tv {
+  width: min(100%, 640px);
+  background: var(--bezel);
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+.screen { position: relative; border-radius: 8px; overflow: hidden; background: #000; }
+canvas { display: block; width: 100%; aspect-ratio: 480 / 500; }
+.screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0) 0 2px, rgba(0, 0, 0, .18) 2px 3px);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, .6);
+}
+@media (prefers-reduced-motion: reduce) { .screen::after { opacity: .5; } }
+
+.remote {
+  width: min(100%, 340px);
+  margin-top: 18px;
+  background: var(--remote);
+  border-radius: 22px 22px 40px 40px;
+  padding: 18px 18px 22px;
+  display: grid;
+  gap: 12px;
+}
+.digits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.remote button {
+  font-family: "Press Start 2P", ui-monospace, monospace;
+  font-size: 14px;
+  background: var(--key);
+  color: var(--keyfg);
+  border: 0;
+  border-radius: 10px;
+  height: 46px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, .45);
+  touch-action: manipulation;
+}
+.remote button:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0, 0, 0, .45); }
+.remote button:focus-visible { outline: 3px solid #ffff00; outline-offset: 2px; }
+
+.fn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.fn button { font-size: 9px; height: 36px; }
+.fn button[aria-pressed="true"] { background: #ffff00; color: #000; }
+
+.fast { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.fast button { height: 30px; border-radius: 15px; }
+.fast .r { background: #d42020; }
+.fast .g { background: #1fa83a; }
+.fast .y { background: #e6c619; }
+.fast .c { background: #19b4c9; }
+
+.hint { max-width: 340px; margin: 14px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; text-align: center; }
+.hint a { color: inherit; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
