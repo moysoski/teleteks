@@ -5,7 +5,6 @@
 import {appendFile} from 'node:fs/promises';
 import {CITIES} from '../js/cities.js';
 import {FORECAST_URL, AIR_URL} from '../js/weather.js';
-import {parse as parseFuel} from './update-fuel.mjs';
 import {parse as parseLotto} from './update-lotto.mjs';
 import {API as SPORTS_API, LEAGUE} from './update-football.mjs';
 import {readData, sleep, today} from './lib.mjs';
@@ -81,14 +80,6 @@ const CHECKS = [
     return {ms, note: 'EUR ' + eur.sreden + ' (' + eur.datum.slice(0, 10) + ')'};
   }],
 
-  ['РКЕ горива', async () => {
-    const {body, ms} = await fetchTimed('https://erc.org.mk/', 'text');
-    const items = parseFuel(body);
-    assert(items.length >= 4, 'only ' + items.length + ' fuel prices parsed');
-    assert(items.every(i => i.price > 20 && i.price < 250), 'implausible price: ' + items.map(i => i.price).join(', '));
-    return {ms, note: items.map(i => i.price).join(' / ')};
-  }],
-
   ['Државна лотарија', async () => {
     const {body, ms} = await fetchTimed('https://www.loto.mk/Results', 'text');
     const d = parseLotto(body);
@@ -121,8 +112,6 @@ const CHECKS = [
     if (!lotto || daysAgo(lotto.date) > 8) problems.push('лото е старо: ' + lotto?.date);
     const snap = await readData('weather-live.json', null);
     if (!snap || daysAgo(snap.updated) > 1) problems.push('резервната прогноза е стара: ' + snap?.updated?.slice(0, 10));
-    const fuel = await readData('fuel.json', null);
-    if (!fuel?.items?.length) problems.push('нема цени на горива');
     const f = await readData('football.json', null);
     const next = f?.nextRound && f.rounds[f.nextRound]?.[0];
     if (!f) problems.push('нема фудбалски податоци');

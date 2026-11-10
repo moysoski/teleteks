@@ -1,4 +1,4 @@
-name: Rates, fuel, lotto
+name: Rates, lotto
 
 on:
   schedule:
@@ -15,4 +15,4 @@ jobs:
   run:
     uses: ./.github/workflows/update.yml
     with:
-      scripts: update-rates.mjs update-fuel.mjs update-lotto.mjs update-weather-live.mjs
+      scripts: update-rates.mjs update-lotto.mjs update-weather-live.mjs

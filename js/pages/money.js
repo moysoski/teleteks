@@ -1,5 +1,5 @@
-// Money section: 200 exchange rates (NBRM), 250 fuel prices (ERC).
-import {put, putR, BLK, RED, GRN, YEL, MAG, CYN, WHT} from '../teletext.js';
+// Money section: 200 exchange rates (NBRM).
+import {put, putR, RED, GRN, YEL, MAG, CYN, WHT} from '../teletext.js';
 import {data, status} from '../data.js';
 import {title, subCounter, fastext, ready, shortDate, decimal} from './common.js';
 
@@ -38,33 +38,6 @@ function p200(sub) {
   fastext();
 }
 
-/* ---------- 250 fuel prices ---------- */
-const priceText = p => decimal(p, Number.isInteger(p) ? 0 : String(p).split('.')[1].length);
-
-function p250() {
-  title('ЦЕНИ НА ГОРИВА');
-  const res = data.fuel;
-  if (!ready(status.fuel, res)) return fastext();
-
-  put(4, 1, 'РКЕ, НАЈВИСОКИ МАЛОПРОДАЖНИ ЦЕНИ', CYN);
-  const before = Object.fromEntries((res.previous?.items || []).map(i => [i.name, i.price]));
-  res.items.forEach((x, i) => {
-    const r = 6 + i * 3;
-    put(r, 1, x.name, WHT);
-    put(r, 16, priceText(x.price), YEL, BLK, {dh: true});
-    put(r, 25, x.unit, WHT);
-    if (before[x.name] != null) {
-      const diff = Math.round((x.price - before[x.name]) * 1000) / 1000;
-      // up is bad news at the pump: red
-      putR(r, 39, diff ? (diff > 0 ? '+' : '') + priceText(diff) : '=', diff > 0 ? RED : diff < 0 ? GRN : WHT);
-    }
-  });
-  if (res.previous) put(22, 1, 'ПОСЛЕДНА ПРОМЕНА: ' + shortDate(res.since), YEL);
-  put(23, 1, 'Продажба под овие цени е дозволена.', MAG);
-  fastext();
-}
-
 export const moneyPages = {
-  200: {render: p200, subpages: () => data.rates ? Math.ceil(data.rates.rates.length / RATES_PER_PAGE) : 1},
-  250: {render: p250}
+  200: {render: p200, subpages: () => data.rates ? Math.ceil(data.rates.rates.length / RATES_PER_PAGE) : 1}
 };

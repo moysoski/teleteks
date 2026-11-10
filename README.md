@@ -3,7 +3,7 @@
 **https://moysoski.github.io/teleteks/**
 
 > **МК:** Македонски телетекст во прелистувач, како стариот ТВ телетекст: 40×25 знаци, 8 бои,
-> мозаична графика и далечински. Време, курсна листа, горива, фудбал и лото. Внеси број на
+> мозаична графика и далечински. Време, курсна листа, фудбал и лото. Внеси број на
 > страница, исто како на телевизор. По полноќ: тест-слика, „Крај на програмата“.
 
 A Macedonian teletext in the browser. It is a static site on GitHub Pages: no server and no database.
@@ -20,7 +20,6 @@ Scheduled GitHub Actions workflows are the "backend".
 | 163 | How often the forecast was right, as a league table | own scoring | daily |
 | 164 | Quiz: guess tomorrow's minimum (press REVEAL) | Open-Meteo | live |
 | 200 | Exchange rates, middle rate | NBRM | 3× daily |
-| 250 | Maximum fuel prices | ERC (РКЕ) | 3× daily |
 | 300 | Football: last round and the next one | TheSportsDB | every 3 h |
 | 301 | League table and form | computed from results | every 3 h |
 | 302 | Fixtures, next 3 rounds | TheSportsDB | every 3 h |
@@ -59,7 +58,7 @@ Links to a page: `#p163`.
 | Workflow | Script(s) | Schedule (UTC) |
 |----------|-----------|----------------|
 | `weather.yml` | `update-weather.mjs`, `update-weather-live.mjs` | 19:30 |
-| `daily.yml` | `update-rates.mjs`, `update-fuel.mjs`, `update-lotto.mjs`, `update-weather-live.mjs` | 06:00, 15:00, 21:00 |
+| `daily.yml` | `update-rates.mjs`, `update-lotto.mjs`, `update-weather-live.mjs` | 06:00, 15:00, 21:00 |
 | `football.yml` | `update-football.mjs` | every 3 h, 09-21 |
 | `health.yml` | `check-sources.mjs` | 05:30 |
 
@@ -96,8 +95,8 @@ absolute: update them when the site moves to its own domain. `og.png` (1200×630
 - **Backfill:** `--backfill N` uses Open-Meteo's Previous Runs API (forecasts issued one day
   earlier) to fill the past N days. Those days are marked `"source":"backfill"`.
 - **Exchange rates:** official NBRM web service (JSON). No CORS, so it runs in Actions.
-- **Fuel:** ERC has no API. The script reads the "АКТУЕЛНИ ЦЕНИ" box on erc.org.mk and fails
-  loudly if the layout changes.
+- **Fuel (removed for now):** ERC (erc.org.mk) is behind Cloudflare, which blocks requests from
+  GitHub's servers. The page and its script are in the git history if fuel comes back.
 - **Lotto:** no API. The script reads loto.mk/Results and fails loudly if the layout changes.
 - **Football:** TheSportsDB with the free public key `123`. It returns full rounds but only 5 teams
   in the standings, so `301` is computed from results (points, goal difference, goals; the
@@ -110,7 +109,7 @@ absolute: update them when the site moves to its own domain. `og.png` (1200×630
 npm start                 # http://localhost:8123 (any static server works)
 npm test                  # scoring tests
 npm run update:weather    # same as the evening job, writes data/
-npm run update:daily      # rates, fuel, lotto
+npm run update:daily      # rates, lotto
 npm run update:football   # first run fetches all rounds, takes a few minutes
 npm run check             # health check of all sources
 node scripts/update-weather.mjs --backfill 60
@@ -125,7 +124,7 @@ During development the service worker serves cached files first. Reload twice, o
 
 1. Push to `main` in a **public** repository.
 2. Settings → Pages → Source: **GitHub Actions**.
-3. Actions → *Weather*, *Rates, fuel, lotto* and *Football* → *Run workflow* once each.
+3. Actions → *Weather*, *Rates, lotto* and *Football* → *Run workflow* once each.
 4. Optional: Settings → Secrets → Actions → `THESPORTSDB_KEY`.
 
 Scheduled workflows in public repositories are disabled after 60 days without repository activity.
@@ -135,7 +134,7 @@ The daily data commit counts as activity. If it ever stops, re-enable the workfl
 
 Code: [MIT](LICENSE). Font: SIL Open Font License, see [fonts/OFL.txt](fonts/OFL.txt).
 Weather data: [Open-Meteo](https://open-meteo.com/), CC BY 4.0. Football data:
-[TheSportsDB](https://www.thesportsdb.com/). Rates, fuel and lotto: NBRM, ERC and the State Lottery.
+[TheSportsDB](https://www.thesportsdb.com/). Rates and lotto: NBRM and the State Lottery.
 The project name and logo are not covered by the MIT licence.
 
 Inspiration: [weather.com/retro](https://weather.com/retro), HRT and NOS teletext,

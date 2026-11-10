@@ -2,7 +2,6 @@
 const FILES = {
   weatherResults: 'data/weather-results.json',
   rates: 'data/rates.json',
-  fuel: 'data/fuel.json',
   football: 'data/football.json',
   lotto: 'data/lotto.json'
 };
