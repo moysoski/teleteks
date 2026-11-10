@@ -9,7 +9,7 @@ import {weatherPages} from './pages/weather.js';
 import {moneyPages} from './pages/money.js';
 import {footballPages} from './pages/football.js';
 import {extraPages} from './pages/extra.js';
-import {drawTestCard, toggleTone, stopTone} from './testcard.js';
+import {drawTestCard, drawStartClock, toggleTone, stopTone} from './testcard.js';
 
 const PAGES = {...homePages, ...weatherPages, ...moneyPages, ...footballPages, ...extraPages};
 const HIDDEN = [888];  // easter eggs are skipped by ‹ ›
@@ -18,6 +18,9 @@ const SUBPAGE_SECONDS = 10;
 const REFRESH_MINUTES = 30;
 const NIGHT_HOURS = [1, 6];  // test card from 01:00 to 06:00 in the viewer's own time (diaspora included)
 const NIGHT_IDLE_MINUTES = 15;
+const MORNING_HOURS = [6, 9];  // station clock on the first visit of the day in this window
+const MORNING_SECONDS = 10;
+const MORNING_KEY = 'teletekst-morning';
 
 const state = {
   current: null,
@@ -27,7 +30,8 @@ const state = {
   searching: false,
   rollNum: 100,
   typed: '',
-  testCard: false,
+  ident: null,  // 'night' test card or 'morning' clock, drawn instead of teletext
+  identEnd: 0,
   tone: false,
   lastInput: Date.now()
 };
@@ -155,18 +159,36 @@ function toggleReveal() {
   srLive.textContent = tt.text();
 }
 
-/* ---------- night test card ---------- */
-const isNight = () => new Date().getHours() >= NIGHT_HOURS[0] && new Date().getHours() < NIGHT_HOURS[1];
+/* ---------- idents: night test card, morning clock ---------- */
+const hour = () => new Date().getHours();
+const isNight = () => hour() >= NIGHT_HOURS[0] && hour() < NIGHT_HOURS[1];
+const isMorning = () => hour() >= MORNING_HOURS[0] && hour() < MORNING_HOURS[1];
 
-function showTestCard() {
-  state.testCard = true;
-  tt.view.overlay = (ctx, w, h) => drawTestCard(ctx, w, h, {clock: clock(new Date()), toneOn: state.tone});
-  tt.draw();
-  srLive.textContent = 'Крај на програмата. Притисни копче на далечинскиот за телетекст.';
+// the morning clock is shown once a day; storage may be unavailable (private mode), then it simply shows again
+function morningSeenToday() {
+  try { return localStorage.getItem(MORNING_KEY) === new Date().toDateString(); } catch { return false; }
+}
+function markMorningSeen() {
+  try { localStorage.setItem(MORNING_KEY, new Date().toDateString()); } catch { /* ignore */ }
 }
 
-function hideTestCard() {
-  state.testCard = false;
+function showIdent(kind) {
+  state.ident = kind;
+  if (kind === 'night') {
+    tt.view.overlay = (ctx, w, h) => drawTestCard(ctx, w, h, {clock: clock(new Date()), toneOn: state.tone, until: pad(NIGHT_HOURS[1]) + ':00'});
+    srLive.textContent = 'Крај на програмата. Притисни копче на далечинскиот за телетекст.';
+  } else {
+    markMorningSeen();
+    state.identEnd = Date.now() + MORNING_SECONDS * 1000;
+    const left = () => Math.max(0, Math.ceil((state.identEnd - Date.now()) / 1000));
+    tt.view.overlay = (ctx, w, h) => drawStartClock(ctx, w, h, {now: new Date(), left: left()});
+    srLive.textContent = 'Почеток на програмата. Добро утро. Телетекстот почнува за ' + MORNING_SECONDS + ' секунди.';
+  }
+  tt.draw();
+}
+
+function hideIdent() {
+  state.ident = null;
   state.tone = false;
   stopTone();
   tt.view.overlay = null;
@@ -174,7 +196,8 @@ function hideTestCard() {
 }
 
 canvas.addEventListener('click', () => {
-  if (!state.testCard) return;
+  if (state.ident === 'morning') return hideIdent();
+  if (state.ident !== 'night') return;
   state.tone = toggleTone();
   tt.draw();
 });
@@ -194,24 +217,25 @@ setInterval(() => {
 }, 500);
 
 setInterval(() => {
-  if (!state.testCard && isNight() && Date.now() - state.lastInput > NIGHT_IDLE_MINUTES * 60e3) showTestCard();
-  if (state.testCard || state.searching || state.hold || subpageCount() < 2) return;
+  if (state.ident === 'morning' && Date.now() >= state.identEnd) hideIdent();
+  if (!state.ident && isNight() && Date.now() - state.lastInput > NIGHT_IDLE_MINUTES * 60e3) showIdent('night');
+  if (state.ident || state.searching || state.hold || subpageCount() < 2) return;
   if (++state.subTimer < SUBPAGE_SECONDS) return;
   state.subTimer = 0;
   state.sub = (state.sub + 1) % subpageCount();
   render();
 }, 1000);
 
-const rerender = () => { if (!state.searching && !state.testCard) render(); };
+const rerender = () => { if (!state.searching && !state.ident) render(); };
 const reload = () => Promise.all([loadWeather(rerender), loadData(rerender)]);
 setInterval(reload, REFRESH_MINUTES * 60 * 1000);
 
 /* ---------- input ---------- */
-// any remote button or key wakes the screen from the test card
+// any remote button or key leaves the test card or the morning clock
 function input(action) {
   return (...args) => {
     state.lastInput = Date.now();
-    if (state.testCard) return hideTestCard();
+    if (state.ident) return hideIdent();
     action(...args);
   };
 }
@@ -240,14 +264,14 @@ const hashPage = () => {
   const m = location.hash.match(/^#p(\d{3})$/);
   return m ? +m[1] : null;
 };
-// #kraj opens the test card at any hour (handy for screenshots and videos)
-const wantsTestCard = () => location.hash === '#kraj';
+// #kraj and #pocetok open the test card and the morning clock at any hour (for screenshots and videos)
+const IDENT_LINKS = {'#kraj': 'night', '#pocetok': 'morning'};
 
 window.addEventListener('hashchange', () => {
-  if (wantsTestCard()) return showTestCard();
+  if (IDENT_LINKS[location.hash]) return showIdent(IDENT_LINKS[location.hash]);
   const n = hashPage();
   if (!n) return;
-  if (state.testCard) hideTestCard();
+  if (state.ident) hideIdent();
   if (n !== state.current) go(n);
 });
 
@@ -259,7 +283,12 @@ syncButtons();
 reload();
 
 // a link to a page always opens teletext, even at night
-const begin = () => (wantsTestCard() || (isNight() && !hashPage())) ? showTestCard() : go(hashPage() || 100);
+function begin() {
+  if (IDENT_LINKS[location.hash]) return showIdent(IDENT_LINKS[location.hash]);
+  if (!hashPage() && isNight()) return showIdent('night');
+  if (!hashPage() && isMorning() && !morningSeenToday()) return showIdent('morning');
+  go(hashPage() || 100);
+}
 document.fonts?.load('16px "Press Start 2P"', 'АБВЃЌЅЏЉЊЈ°µ').then(() => { tt.draw(); begin(); }, begin) ?? begin();
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {

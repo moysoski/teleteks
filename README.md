@@ -30,6 +30,9 @@ Night mode: from 01:00 to 06:00 (the viewer's local time) the site opens on a te
 Tap the screen for the 1 kHz tone, press any remote button for teletext. A link to a page
 (`#p300`) always opens teletext; `#kraj` opens the test card at any hour.
 
+Morning: on the first visit of the day between 06:00 and 09:00 a station clock ("Почеток на
+програмата") counts down 10 seconds, then teletext starts. `#pocetok` opens it at any hour.
+
 ## Remote control
 
 | Key | Button | Function |

@@ -2,7 +2,7 @@
 // App files: served from cache, refreshed in the background (a new deploy shows on the next load).
 // Data (data/*.json, Open-Meteo): network first, cache only when offline.
 // Bump VERSION when the list of app files changes.
-const VERSION = 'v6';
+const VERSION = 'v7';
 const CACHE = 'teletekst-' + VERSION;
 
 const SHELL = [
