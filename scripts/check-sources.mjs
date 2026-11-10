@@ -116,7 +116,7 @@ const CHECKS = [
     const history = await readData('weather-history.json', {days: {}});
     if (!history.days[t]?.forecast) problems.push('вчерашната прогноза за денес не е зачувана (Weather)');
     const rates = await readData('rates.json', null);
-    if (!rates || daysAgo(rates.date) > 4) problems.push('курсната листа е стара: ' + rates?.date);
+    if (!rates || daysAgo(rates.date) > 6) problems.push('курсната листа е стара: ' + rates?.date);
     const lotto = await readData('lotto.json', null);
     if (!lotto || daysAgo(lotto.date) > 8) problems.push('лото е старо: ' + lotto?.date);
     const fuel = await readData('fuel.json', null);

@@ -1,7 +1,6 @@
 // App: header, page lookup, remote control, HOLD / SIZE / REVEAL, night test card, timers.
 import * as tt from './teletext.js';
 import {put, CYN, GRN, RED, WHT, YEL} from './teletext.js';
-import {TZ} from './cities.js';
 import {loadWeather} from './weather.js';
 import {loadData} from './data.js';
 import {fastLinks} from './pages/common.js';
@@ -17,7 +16,7 @@ const HIDDEN = [888];  // easter eggs are skipped by ‹ ›
 const NUMBERS = Object.keys(PAGES).map(Number).filter(n => !HIDDEN.includes(n)).sort((a, b) => a - b);
 const SUBPAGE_SECONDS = 10;
 const REFRESH_MINUTES = 30;
-const NIGHT_HOURS = [1, 6];  // test card from 01:00 to 06:00 Skopje time
+const NIGHT_HOURS = [1, 6];  // test card from 01:00 to 06:00 in the viewer's own time (diaspora included)
 const NIGHT_IDLE_MINUTES = 15;
 
 const state = {
@@ -157,11 +156,7 @@ function toggleReveal() {
 }
 
 /* ---------- night test card ---------- */
-function skopjeHour() {
-  return +new Intl.DateTimeFormat('en-GB', {timeZone: TZ, hour: '2-digit', hourCycle: 'h23'}).format(new Date());
-}
-
-const isNight = () => skopjeHour() >= NIGHT_HOURS[0] && skopjeHour() < NIGHT_HOURS[1];
+const isNight = () => new Date().getHours() >= NIGHT_HOURS[0] && new Date().getHours() < NIGHT_HOURS[1];
 
 function showTestCard() {
   state.testCard = true;

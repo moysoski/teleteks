@@ -25,7 +25,7 @@ Scheduled GitHub Actions workflows are the "backend".
 | 500 | Lotto 7, latest draw | State Lottery (loto.mk) | 3× daily |
 | 888 | Subtitles (easter egg, not in the index) | | |
 
-Night mode: from 01:00 to 06:00 (Skopje time) the site opens on a test card, "Крај на програмата".
+Night mode: from 01:00 to 06:00 (the viewer's local time) the site opens on a test card, "Крај на програмата".
 Tap the screen for the 1 kHz tone, press any remote button for teletext. A link to a page
 (`#p300`) always opens teletext; `#kraj` opens the test card at any hour.
 
