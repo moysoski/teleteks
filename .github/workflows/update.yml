@@ -30,6 +30,8 @@ jobs:
     concurrency:
       group: data-commit
       cancel-in-progress: false
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -52,6 +54,7 @@ jobs:
       # the data commits also count as repository activity, which keeps scheduled
       # workflows from being disabled after 60 days without commits
       - name: Commit data
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -62,13 +65,15 @@ jobs:
             git commit -m "Data: ${{ inputs.scripts }} $(TZ=Europe/Skopje date '+%F %H:%M')"
             git pull --rebase
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Report failed scripts
         if: env.FAILED == '1'
         run: exit 1
 
-  # pushes made with GITHUB_TOKEN do not trigger other workflows, so deploy from here
+  # pushes made with GITHUB_TOKEN do not trigger other workflows, so deploy from here,
+  # but only when new data was committed
   deploy:
     needs: update
-    if: ${{ !cancelled() }}
+    if: ${{ !cancelled() && needs.update.outputs.changed == 'true' }}
     uses: ./.github/workflows/deploy.yml
