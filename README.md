@@ -1,5 +1,7 @@
 # Телетекст
 
+**https://moysoski.github.io/teleteks/**
+
 > **МК:** Македонски телетекст во прелистувач, како стариот ТВ телетекст: 40×25 знаци, 8 бои,
 > мозаична графика и далечински. Време, курсна листа, горива, фудбал и лото. Внеси број на
 > страница, исто како на телевизор. По полноќ: тест-слика, „Крај на програмата“.
@@ -79,6 +81,8 @@ A **hit** means min and max are within 2 °C and the rain yes/no (≥ 1 mm) was 
 `sw.js` makes it an installable PWA that works offline with the last loaded data.
 
 All paths are relative, so the site works both at `user.github.io/repo/` and on a custom domain.
+The only exception are the link-preview tags in `index.html` (`og:url`, `og:image`), which must be
+absolute: update them when the site moves to its own domain. `og.png` (1200×630) is the preview image.
 
 ### Data sources and their limits
 
