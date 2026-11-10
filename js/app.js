@@ -264,7 +264,7 @@ syncButtons();
 reload();
 
 // a link to a page always opens teletext, even at night
-const begin = () => (wantsTestCard() || (isNight() && !hashPage())) ? showTestCard() : go(hashPage() || 160);
+const begin = () => (wantsTestCard() || (isNight() && !hashPage())) ? showTestCard() : go(hashPage() || 100);
 document.fonts?.load('16px "Press Start 2P"', 'АБВЃЌЅЏЉЊЈ°µ').then(() => { tt.draw(); begin(); }, begin) ?? begin();
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
