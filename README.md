@@ -78,7 +78,9 @@ The weather job:
 
 A **hit** means min and max are within 2 °C and the rain yes/no (≥ 1 mm) was right.
 
-`sw.js` makes it an installable PWA that works offline with the last loaded data.
+`sw.js` makes it an installable PWA that works offline with the last loaded data. `js/install.js`
+shows an "install on phone" button: the browser's install prompt on Android and desktop Chrome,
+short instructions on iPhone/iPad (Safari has no install API), hidden once installed.
 
 All paths are relative, so the site works both at `user.github.io/repo/` and on a custom domain.
 The only exception are the link-preview tags in `index.html` (`og:url`, `og:image`), which must be

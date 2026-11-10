@@ -91,6 +91,25 @@ canvas { display: block; width: 100%; aspect-ratio: 480 / 500; }
 .fast .y { background: #e6c619; }
 .fast .c { background: #19b4c9; }
 
+.install { width: min(100%, 340px); margin-top: 14px; text-align: center; }
+.install button {
+  width: 100%;
+  font-family: "Press Start 2P", ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  padding: 14px 10px;
+  border: 0;
+  border-radius: 12px;
+  background: #0000ff;
+  color: #ffff00;
+  cursor: pointer;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, .45);
+}
+.install button:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0, 0, 0, .45); }
+.install button:focus-visible { outline: 3px solid #ffff00; outline-offset: 2px; }
+.install p { margin: 10px 4px 0; color: var(--fg); font-size: 14px; line-height: 1.5; }
+.install[hidden], .install p[hidden] { display: none; }
+
 .hint { max-width: 340px; margin: 14px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; text-align: center; }
 .hint a { color: inherit; }
 

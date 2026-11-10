@@ -47,10 +47,16 @@
     <button class="c" aria-label="Индекс, страница 100"></button>
   </div>
 </div>
+<div class="install" id="install" hidden>
+  <button id="install-button" aria-controls="install-ios">ИНСТАЛИРАЈ НА ТЕЛЕФОН</button>
+  <p id="install-ios" hidden>Во Safari притисни <b>Сподели</b> (квадрат со стрелка нагоре),
+  па <b>Додај на почетен екран</b>. Телетекстот ќе се отвора како апликација, на цел екран.</p>
+</div>
 <p class="hint">Внеси број на страница или притисни боја. ЗУМ ја зголемува половина од екранот.<br>
 Податоци: <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0), НБРМ, РКЕ,
 <a href="https://www.thesportsdb.com/">TheSportsDB</a>, Државна лотарија.</p>
 <div class="sr" id="sr" aria-live="polite"></div>
 <script type="module" src="js/app.js"></script>
+<script type="module" src="js/install.js"></script>
 </body>
 </html>

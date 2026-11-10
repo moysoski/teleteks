@@ -2,7 +2,7 @@
 // App files: served from cache, refreshed in the background (a new deploy shows on the next load).
 // Data (data/*.json, Open-Meteo): network first, cache only when offline.
 // Bump VERSION when the list of app files changes.
-const VERSION = 'v4';
+const VERSION = 'v5';
 const CACHE = 'teletekst-' + VERSION;
 
 const SHELL = [
@@ -20,6 +20,7 @@ const SHELL = [
   'js/weather.js',
   'js/data.js',
   'js/testcard.js',
+  'js/install.js',
   'js/pages/common.js',
   'js/pages/home.js',
   'js/pages/weather.js',
@@ -31,7 +32,10 @@ const SHELL = [
 const DATA_HOSTS = ['api.open-meteo.com', 'air-quality-api.open-meteo.com'];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  // cache: 'reload' skips the browser's HTTP cache (GitHub Pages caches for 10 minutes), so a new
+  // version never stores files from the previous deploy
+  const fresh = SHELL.map(url => new Request(url, {cache: 'reload'}));
+  event.waitUntil(caches.open(CACHE).then(c => c.addAll(fresh)).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', event => {
@@ -58,7 +62,10 @@ async function networkFirst(request) {
 async function staleWhileRevalidate(event) {
   const cache = await caches.open(CACHE);
   const hit = await cache.match(event.request, {ignoreSearch: true});
-  const update = fetch(event.request).then(res => {
+  // 'no-cache' revalidates with the server (a cheap 304 when nothing changed);
+  // a navigation request cannot be copied with options, so its URL is used
+  const req = event.request.mode === 'navigate' ? event.request.url : event.request;
+  const update = fetch(req, {cache: 'no-cache'}).then(res => {
     if (res.ok) cache.put(event.request, res.clone());
     return res;
   });
