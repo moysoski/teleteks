@@ -38,13 +38,14 @@ export async function readData(name, fallback) {
   }
 }
 
-// Writes data/<name> only when something other than `updated` changed, so runs without news make no commit
-export async function writeData(name, obj) {
+// Writes data/<name> only when something other than `updated` changed, so runs without news make no commit.
+// pretty: one value per line (readable diffs); off for large machine-only files.
+export async function writeData(name, obj, {pretty = true} = {}) {
   const old = await readData(name, null);
   const strip = o => JSON.stringify({...o, updated: null});
   if (old && strip(old) === strip(obj)) return false;
   await mkdir(DATA, {recursive: true});
-  await writeFile(new URL(name, DATA), JSON.stringify({...obj, updated: new Date().toISOString()}, null, 1) + '\n');
+  await writeFile(new URL(name, DATA), JSON.stringify({...obj, updated: new Date().toISOString()}, null, pretty ? 1 : 0) + '\n');
   return true;
 }
 

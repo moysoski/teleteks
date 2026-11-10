@@ -119,6 +119,8 @@ const CHECKS = [
     if (!rates || daysAgo(rates.date) > 6) problems.push('курсната листа е стара: ' + rates?.date);
     const lotto = await readData('lotto.json', null);
     if (!lotto || daysAgo(lotto.date) > 8) problems.push('лото е старо: ' + lotto?.date);
+    const snap = await readData('weather-live.json', null);
+    if (!snap || daysAgo(snap.updated) > 1) problems.push('резервната прогноза е стара: ' + snap?.updated?.slice(0, 10));
     const fuel = await readData('fuel.json', null);
     if (!fuel?.items?.length) problems.push('нема цени на горива');
     const f = await readData('football.json', null);
