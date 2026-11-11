@@ -36,7 +36,8 @@ Tap the screen for the 1 kHz tone, press any remote button for teletext. A link 
 
 Newsflash: when tomorrow brings frost or heat (the same warning as on page 160), a red "ВОНРЕДНО"
 box appears over the current page for 8 seconds, once per browser session, like teletext newsflashes
-over the TV picture. Any button closes it.
+over the TV picture. Any button closes it. `#vonredno` shows it right away; without a warning it shows tomorrow's
+coldest city instead.
 
 Morning: on the first visit of the day between 06:00 and 09:00 a station clock ("Почеток на
 програмата") counts down 10 seconds, then teletext starts. `#pocetok` opens it at any hour.

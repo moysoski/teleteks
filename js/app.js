@@ -209,9 +209,19 @@ canvas.addEventListener('click', () => {
 });
 
 /* ---------- newsflash ---------- */
-// Tomorrow's frost or heat warning, once per browser session, for FLASH_SECONDS over the current page
+// Tomorrow's frost or heat warning, once per browser session, for FLASH_SECONDS over the current page.
+// #vonredno shows it right away (a preview, for screenshots and videos)
+let previewFlash = location.hash === '#vonredno';
+
 function maybeNewsflash() {
   if (state.flash || state.ident || state.searching || state.current == null) return;
+  if (previewFlash) {
+    const text = newsflash(true);
+    if (!text) return;  // forecast not loaded yet: tried again when it arrives
+    previewFlash = false;
+    state.flash = {text, until: Date.now() + FLASH_SECONDS * 1000};
+    return render();
+  }
   const text = newsflash();
   if (!text) return;
   try {
@@ -301,6 +311,10 @@ const IDENT_LINKS = {'#kraj': 'night', '#pocetok': 'morning'};
 
 window.addEventListener('hashchange', () => {
   if (IDENT_LINKS[location.hash]) return showIdent(IDENT_LINKS[location.hash]);
+  if (location.hash === '#vonredno') {
+    previewFlash = true;
+    return go(state.current || 100);
+  }
   const n = hashPage();
   if (!n) return;
   if (state.ident) hideIdent();
@@ -317,8 +331,9 @@ reload();
 // a link to a page always opens teletext, even at night
 function begin() {
   if (IDENT_LINKS[location.hash]) return showIdent(IDENT_LINKS[location.hash]);
-  if (!hashPage() && isNight()) return showIdent('night');
-  if (!hashPage() && isMorning() && !morningSeenToday()) return showIdent('morning');
+  const link = hashPage() || previewFlash;  // a link always opens teletext, even at night
+  if (!link && isNight()) return showIdent('night');
+  if (!link && isMorning() && !morningSeenToday()) return showIdent('morning');
   go(hashPage() || 100);
 }
 document.fonts?.load('16px "Press Start 2P"', 'АБВЃЌЅЏЉЊЈ°µ').then(() => { tt.draw(); begin(); }, begin) ?? begin();

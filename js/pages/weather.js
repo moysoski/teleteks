@@ -81,11 +81,16 @@ function warning(days) {
   return ['БЕЗ ПРЕДУПРЕДУВАЊА', BLK, GRN, false];
 }
 
-// Newsflash text for tomorrow's frost or heat, or null; shown as a box over any page (see app.js)
-export function newsflash() {
+// Newsflash text for tomorrow's frost or heat, or null; shown as a box over any page (see app.js).
+// preview: when there is no warning, return tomorrow's coldest city instead (real data, not a fake alert)
+export function newsflash(preview = false) {
   if (!weather.forecast) return null;
-  const [text, , , urgent] = warning(weather.forecast.map(c => ({...c, ...c.days[1]})));
-  return urgent ? text : null;
+  const days = weather.forecast.map(c => ({...c, ...c.days[1]}));
+  const [text, , , urgent] = warning(days);
+  if (urgent) return text;
+  if (!preview) return null;
+  const coldest = days.reduce((a, b) => b.min < a.min ? b : a);
+  return 'НАЈСТУДЕНО УТРЕ: ' + coldest.name + ' ' + coldest.min + '°';
 }
 
 function p160() {
