@@ -196,7 +196,10 @@ function resultsTable(res) {
   const last = res.last;
   if (!last) return;
   put(4, 33, 'Д=ДОЖД', MAG);
-  put(15, 1, 'ВЧЕРА ' + shortDate(last.date), YEL);
+  // "ВЧЕРА" only when the last scored day really is yesterday (the evening job can run late)
+  const yesterday = new Date(Date.parse(skopjeNow().date + 'T12:00:00Z') - 86400e3).toISOString().slice(0, 10);
+  const label = last.date === yesterday ? 'ВЧЕРА' : DAYS[weekday(last.date)].slice(0, 3);
+  put(15, 1, label + ' ' + shortDate(last.date), YEL);
   put(15, 13, 'ПРОГ.', YEL);
   put(15, 23, 'ИЗМЕР.', YEL);
   put(15, 34, last.hits + '/' + last.rows.length, YEL);
