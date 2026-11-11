@@ -8,8 +8,12 @@ const USER_AGENT = 'teletekst-data-bot (static teletext site, one request per ru
 
 export const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-// Today's date in Skopje as YYYY-MM-DD
+// Today's date in Skopje as YYYY-MM-DD, and the current hour there (0-23)
 export const today = () => new Intl.DateTimeFormat('en-CA', {timeZone: TZ}).format(new Date());
+export const skopjeHour = () => +new Intl.DateTimeFormat('en-GB', {timeZone: TZ, hour: '2-digit', hourCycle: 'h23'}).format(new Date());
+
+// 'YYYY-MM-DD' plus n days
+export const addDays = (iso, n) => new Date(Date.parse(iso + 'T12:00:00Z') + n * 86400e3).toISOString().slice(0, 10);
 
 async function get(url, parse, tries = 4) {
   for (let i = 1; ; i++) {

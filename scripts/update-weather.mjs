@@ -8,44 +8,27 @@
 // --backfill uses Open-Meteo's Previous Runs API (forecasts issued one day earlier)
 // to create forecasts for past days, so the results table is not empty on launch.
 
-import {readFile, writeFile, mkdir} from 'node:fs/promises';
+import {writeFile, mkdir} from 'node:fs/promises';
 import {CITIES, TZ} from '../js/cities.js';
 import {score} from '../js/score.js';
+import {getJSON as fetchJSON, readData, today, skopjeHour, addDays} from './lib.mjs';
 
 const DATA = new URL('../data/', import.meta.url);
 const HISTORY = new URL('weather-history.json', DATA);
 const RESULTS = new URL('weather-results.json', DATA);
 const MAX_BACKFILL = 90;
+// GitHub sometimes starts the evening run hours late; a run before this hour still counts as yesterday evening
+const LATE_RUN_UNTIL_HOUR = 6;
 
 const lat = CITIES.map(c => c.lat).join(',');
 const lon = CITIES.map(c => c.lon).join(',');
 const tz = encodeURIComponent(TZ);
 
-const today = () => new Intl.DateTimeFormat('en-CA', {timeZone: TZ}).format(new Date());
 const round1 = v => Math.round(v * 10) / 10;
-
-async function getJSON(url, tries = 3) {
-  for (let i = 1; ; i++) {
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(res.status + ' ' + (await res.text()).slice(0, 200));
-      const j = await res.json();
-      return Array.isArray(j) ? j : [j];
-    } catch (err) {
-      if (i >= tries) throw err;
-      await new Promise(r => setTimeout(r, 5000 * i));
-    }
-  }
-}
-
-async function readHistory() {
-  try {
-    return JSON.parse(await readFile(HISTORY, 'utf8'));
-  } catch (err) {
-    if (err.code === 'ENOENT') return {days: {}};
-    throw err;
-  }
-}
+const getJSON = async url => {
+  const j = await fetchJSON(url);
+  return Array.isArray(j) ? j : [j];
+};
 
 // One day per line keeps git diffs small
 function formatHistory(history) {
@@ -89,8 +72,9 @@ async function main() {
   const i = args.indexOf('--backfill');
   const backfill = i >= 0 ? Math.min(MAX_BACKFILL, Math.max(1, parseInt(args[i + 1], 10) || 30)) : 0;
 
-  const t = today();
-  const history = await readHistory();
+  // "today" for this run: after midnight, a delayed evening run still saves the forecast for the day that starts now
+  const t = skopjeHour() < LATE_RUN_UNTIL_HOUR ? addDays(today(), -1) : today();
+  const history = await readData('weather-history.json', {days: {}});
   const log = [];
 
   if (backfill) log.push('backfilled forecasts: ' + await backfillForecasts(history, backfill, t));
@@ -99,7 +83,7 @@ async function main() {
   const pastDays = Math.max(7, backfill + 1);
   const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
     '&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=' + tz +
-    '&past_days=' + pastDays + '&forecast_days=2';
+    '&past_days=' + pastDays + '&forecast_days=3';
   const list = await getJSON(url);
 
   let saved = 0, observed = 0;
@@ -109,7 +93,7 @@ async function main() {
       const min = d.temperature_2m_min[j], max = d.temperature_2m_max[j], rain = d.precipitation_sum[j];
       if (min == null || max == null || rain == null) return;
       const value = {min: round1(min), max: round1(max), rain: round1(rain)};
-      if (date > t) {
+      if (date === addDays(t, 1)) {
         const day = (history.days[date] ??= {});
         if (!day.forecast?.[id]) {
           (day.forecast ??= {})[id] = value;

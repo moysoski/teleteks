@@ -26,9 +26,10 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-    # one data commit at a time
+    # One group per caller, so Weather, Daily and Football never cancel each other (a group keeps only
+    # one pending run). They write different files in data/, so concurrent commits rebase cleanly.
     concurrency:
-      group: data-commit
+      group: data-${{ inputs.scripts }}
       cancel-in-progress: false
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
@@ -63,8 +64,13 @@ jobs:
             echo "no changes"
           else
             git commit -m "Data: ${{ inputs.scripts }} $(TZ=Europe/Skopje date '+%F %H:%M')"
-            git pull --rebase
-            git push
+            # another workflow may push between our pull and push: retry a few times
+            for i in 1 2 3 4 5; do
+              git pull --rebase && git push && break
+              git rebase --abort 2>/dev/null || true
+              if [ "$i" = 5 ]; then exit 1; fi
+              sleep $((i * 5))
+            done
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Report failed scripts

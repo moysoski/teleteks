@@ -3,14 +3,11 @@
 import {put, putR, BLK, RED, GRN, YEL, MAG, CYN, WHT} from '../teletext.js';
 import {TZ} from '../cities.js';
 import {data, status} from '../data.js';
+import {isFinished, isPostponed} from '../match-status.js';
 import {title, subCounter, fastext, FAST_FOOTBALL, ready, DAYS} from './common.js';
 
-const FINISHED = ['FT', 'AET', 'PEN', 'Match Finished'];
-const POSTPONED = ['PST', 'CANC', 'ABD', 'Match Postponed'];
 const NEW_RESULT_HOURS = 6;
 const FIXTURE_ROUNDS = 3;
-
-const isFinished = m => FINISHED.includes(m.status);
 
 const localFormat = new Intl.DateTimeFormat('en-GB', {
   timeZone: TZ, weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
@@ -38,7 +35,7 @@ function matchLine(r, m) {
     // a fresh result flashes, like the teletext "ја затвори" moment
     const fresh = Date.now() - new Date(m.time).getTime() < NEW_RESULT_HOURS * 3600e3;
     putR(r, 38, m.hs + ':' + m.as, CYN, BLK, {fl: fresh});
-  } else if (POSTPONED.includes(m.status)) {
+  } else if (isPostponed(m)) {
     putR(r, 38, 'ОДЛ.', RED);
   } else {
     putR(r, 38, t.time, WHT);
@@ -120,7 +117,7 @@ function p302(sub) {
   f.rounds[round].slice(0, 6).forEach((m, i) => {
     const r = 6 + i * 3, t = local(m.time);
     put(r, 1, t.day + ' ' + t.date, WHT);
-    put(r, 11, POSTPONED.includes(m.status) ? 'ОДЛОЖЕН' : isFinished(m) ? m.hs + ':' + m.as : t.time, CYN);
+    put(r, 11, isPostponed(m) ? 'ОДЛОЖЕН' : isFinished(m) ? m.hs + ':' + m.as : t.time, CYN);
     put(r + 1, 3, m.home + ' - ' + m.away, YEL);
   });
   fastext(FAST_FOOTBALL);

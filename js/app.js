@@ -77,7 +77,11 @@ function syncColourButtons() {
   fastLinks.forEach(([label, n], i) => colourButtons[i].setAttribute('aria-label', label + ', страница ' + n));
 }
 
-function render() {
+// announce: read the page to screen readers. Only when the viewer opened a page (or it finished loading),
+// not on every subpage rotation or background refresh, which would re-read the page every 10 seconds.
+let lastAnnounced = '';
+
+function render(announce = false) {
   tt.clear();
   if (state.current != null) {
     const p = page();
@@ -90,7 +94,10 @@ function render() {
   header();
   tt.draw();
   syncColourButtons();
-  srLive.textContent = tt.text();
+  if (announce || lastAnnounced.includes('ВЧИТУВАЊЕ')) {
+    lastAnnounced = tt.text();
+    srLive.textContent = lastAnnounced;
+  }
 }
 
 function go(n) {
@@ -108,7 +115,7 @@ function go(n) {
     state.current = n;
     state.sub = 0;
     state.subTimer = 0;
-    render();
+    render(true);
     maybeNewsflash();
     try { history.replaceState(null, '', '#p' + n); } catch (e) { /* file:// or sandboxed */ }
   }, PAGES[n] ? 1100 : 2400);
@@ -198,7 +205,7 @@ function hideIdent() {
   state.tone = false;
   stopTone();
   tt.view.overlay = null;
-  if (state.current == null) go(100); else render();
+  if (state.current == null) go(100); else render(true);
 }
 
 canvas.addEventListener('click', () => {
@@ -220,7 +227,9 @@ function maybeNewsflash() {
     if (!text) return;  // forecast not loaded yet: tried again when it arrives
     previewFlash = false;
     state.flash = {text, until: Date.now() + FLASH_SECONDS * 1000};
-    return render();
+    render();
+    srLive.textContent = 'Вонредно: ' + text;
+    return;
   }
   const text = newsflash();
   if (!text) return;
@@ -230,6 +239,7 @@ function maybeNewsflash() {
   } catch { /* storage unavailable: show it anyway */ }
   state.flash = {text, until: Date.now() + FLASH_SECONDS * 1000};
   render();
+  srLive.textContent = 'Вонредно: ' + text;
 }
 
 function clearNewsflash() {

@@ -63,13 +63,13 @@ Links to a page: `#p163`.
 - `js/pages/*.js` draw the pages, one file per section. A page is `{render(sub), subpages()}`.
 - Live weather comes straight from [Open-Meteo](https://open-meteo.com/) in the browser. If that fails
   (outage, timeout, or a rate limit on an IP address shared by many mobile users), the page falls back to
-  `data/weather-live.json`, a snapshot saved 4 times a day by `update-weather-live.mjs`.
+  `data/weather-live.json`, a snapshot saved 3 times a day by `update-weather-live.mjs`.
 - Everything else is fetched by scripts in `scripts/`, run by GitHub Actions, and saved in `data/*.json`.
   The browser only reads those files, so API keys never reach the page.
 
 | Workflow | Script(s) | Schedule (UTC) |
 |----------|-----------|----------------|
-| `weather.yml` | `update-weather.mjs`, `update-weather-live.mjs` | 19:30 |
+| `weather.yml` | `update-weather.mjs` | 19:30 |
 | `daily.yml` | `update-rates.mjs`, `update-lotto.mjs`, `update-weather-live.mjs` | 06:00, 15:00, 21:00 |
 | `football.yml` | `update-football.mjs`, `update-leagues.mjs` | every 3 h, 09-21 |
 | `health.yml` | `check-sources.mjs` | 05:30 |

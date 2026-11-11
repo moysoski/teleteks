@@ -3,13 +3,14 @@
 // standings to 5 teams, so the table is computed here from the results.
 // Finished rounds are kept in data/football.json and not fetched again.
 // Optional secret: THESPORTSDB_KEY (premium key), otherwise the public free key is used.
-import {getJSON, readData, writeData, sleep, run, isMain} from './lib.mjs';
+import {getJSON, readData, writeData, sleep, today, run, isMain} from './lib.mjs';
+import {isFinished, isPostponed} from '../js/match-status.js';
 
 export const API = 'https://www.thesportsdb.com/api/v1/json/' + (process.env.THESPORTSDB_KEY || '123');
 export const LEAGUE = 4652;
 const MAX_ROUNDS = 40;
+const RECHECK_POSTPONED_DAYS = 3;
 const DELAY_MS = 3000;  // the free key allows about 30 requests per minute
-const FINISHED = ['FT', 'AET', 'PEN', 'Match Finished'];
 
 // Names on the page, at most 12 characters
 const TEAMS = {
@@ -47,7 +48,6 @@ function teamName(name) {
   return s.toUpperCase().slice(0, 12);
 }
 
-const isFinished = m => FINISHED.includes(m.status);
 
 // One TheSportsDB event -> {time (UTC ISO), home, away, hs, as, status}; `name` shortens the team names
 export function toMatch(e, name = teamName) {
@@ -85,14 +85,20 @@ if (isMain(import.meta.url)) run(async () => {
   const league = (await getJSON(API + '/lookupleague.php?id=' + LEAGUE)).leagues[0];
   const season = league.strCurrentSeason;
   const old = await readData('football.json', null);
-  const rounds = old && old.season === season ? {...old.rounds} : {};
+  const sameSeason = old && old.season === season;
+  const rounds = sameSeason ? {...old.rounds} : {};
+  const checked = sameSeason ? {...old.checked} : {};  // round -> date it was last fetched
   const soon = new Date(Date.now() + 7 * 86400e3).toISOString();
+  const t = today();
+  const recheckPostponed = r => !checked[r] || (Date.parse(t) - Date.parse(checked[r])) / 86400e3 >= RECHECK_POSTPONED_DAYS;
 
   let fetched = 0;
   for (let r = 1; r <= MAX_ROUNDS; r++) {
     const stored = rounds[r];
-    // a stored round is fetched again only while it has unfinished matches that are due
-    if (stored && !stored.some(m => !isFinished(m) && m.time <= soon)) continue;
+    // a stored round is fetched again while it has matches that are due and not finished;
+    // postponed ones only every few days, to catch the new date without spending requests on every run
+    const due = stored?.some(m => !isFinished(m) && m.time <= soon && (!isPostponed(m) || recheckPostponed(r)));
+    if (stored && !due) continue;
     await sleep(fetched ? DELAY_MS : 0);
     const events = (await getJSON(API + '/eventsround.php?id=' + LEAGUE + '&r=' + r + '&s=' + season)).events;
     fetched++;
@@ -101,18 +107,21 @@ if (isMain(import.meta.url)) run(async () => {
       continue;
     }
     rounds[r] = events.map(e => toMatch(e)).sort((a, b) => a.time.localeCompare(b.time));
+    checked[r] = t;
   }
 
   const numbers = Object.keys(rounds).map(Number);
   const lastRound = Math.max(0, ...numbers.filter(r => rounds[r].some(isFinished)));
-  const nextRound = Math.min(...numbers.filter(r => rounds[r].some(m => !isFinished(m))), Infinity);
+  // a postponed match does not make an old round the "next" one
+  const nextRound = Math.min(...numbers.filter(r => rounds[r].some(m => !isFinished(m) && !isPostponed(m))), Infinity);
 
   const data = {
     season,
     lastRound: lastRound || null,
     nextRound: Number.isFinite(nextRound) ? nextRound : null,
     table: standings(rounds),
-    rounds
+    rounds,
+    checked
   };
   const changed = await writeData('football.json', data);
   console.log('football', season, 'rounds', numbers.length, 'fetched', fetched, 'last', data.lastRound, 'next', data.nextRound,

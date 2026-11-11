@@ -84,8 +84,8 @@ function warning(days) {
 // Newsflash text for tomorrow's frost or heat, or null; shown as a box over any page (see app.js).
 // preview: when there is no warning, return tomorrow's coldest city instead (real data, not a fake alert)
 export function newsflash(preview = false) {
-  if (!weather.forecast) return null;
-  const days = weather.forecast.map(c => ({...c, ...c.days[1]}));
+  const days = tomorrow();
+  if (!days) return null;
   const [text, , , urgent] = warning(days);
   if (urgent) return text;
   if (!preview) return null;
@@ -93,12 +93,22 @@ export function newsflash(preview = false) {
   return 'НАЈСТУДЕНО УТРЕ: ' + coldest.name + ' ' + coldest.min + '°';
 }
 
+// Every city merged with its forecast for tomorrow, or null while that is not available
+// (not loaded yet, or an old snapshot whose days are already in the past)
+function tomorrow() {
+  if (!weather.forecast?.every(c => c.days[1])) return null;
+  return weather.forecast.map(c => ({...c, ...c.days[1]}));
+}
+
+// Loading/error message for pages that need tomorrow; a loaded forecast without tomorrow counts as an error
+const tomorrowReady = days => ready(weather.forecastStatus === 'ok' && !days ? 'error' : weather.forecastStatus, days);
+
 function p160() {
   title('ВРЕМЕТО УТРЕ', YEL, BLU, {line: false});
   put(1, 30, 'макс °C', WHT, BLU);
-  if (!ready(weather.forecastStatus, weather.forecast)) return fastext(FAST_WEATHER);
+  const days = tomorrow();
+  if (!tomorrowReady(days)) return fastext(FAST_WEATHER);
 
-  const days = weather.forecast.map(c => ({...c, ...c.days[1]}));
   put(2, 30, DAYS[weekday(days[0].date)].slice(0, 3) + ' ' + shortDate(days[0].date), WHT, BLU);
 
   for (let r = 0; r < MAP.length; r++) {
@@ -269,10 +279,10 @@ function p163(sub) {
 /* ---------- 164 quiz, answer hidden until REVEAL ---------- */
 function p164() {
   title('ПОГОДИ ЈА ПРОГНОЗАТА', YEL, MAG);
-  if (!ready(weather.forecastStatus, weather.forecast)) return fastext(FAST_WEATHER);
+  const days = tomorrow();
+  if (!tomorrowReady(days)) return fastext(FAST_WEATHER);
 
-  const tomorrow = weather.forecast[0].days[1].date;
-  const seed = [...tomorrow].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7);
+  const seed = [...days[0].date].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7);
   const city = weather.forecast[Math.abs(seed) % CITIES.length];
   const [today, next] = city.days;
 

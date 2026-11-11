@@ -2,10 +2,12 @@
 // Foreign leagues for pages 310/311: the last round and the next one, from TheSportsDB.
 // Three requests per league: the latest finished match (gives season and round), that round, the next round.
 // Team names stay in Latin, shortened, like on the HRT teletext.
-import {getJSON, writeData, sleep, run, isMain} from './lib.mjs';
+import {getJSON, readData, writeData, sleep, run, isMain} from './lib.mjs';
+import {isFinished} from '../js/match-status.js';
 import {API, toMatch} from './update-football.mjs';
 
 const DELAY_MS = 3000;  // the free key allows about 30 requests per minute
+const MAX_STEPS_FORWARD = 3;
 
 const LEAGUES = [
   {id: 4328, name: 'АНГЛИЈА'},
@@ -45,28 +47,40 @@ export function shortName(name) {
   return (clean.length <= 12 ? clean : clean.split(' ')[0]).slice(0, 12);
 }
 
-async function league({id, name}, first) {
+// The latest finished match only gives a starting point: it can belong to an older, rescheduled round.
+// So the round never goes back from the one saved last time, and moves forward while the next one has results.
+async function league({id, name}, first, previous) {
   if (!first) await sleep(DELAY_MS);
   const last = (await getJSON(API + '/eventspastleague.php?id=' + id)).events?.[0];
   if (!last) throw new Error(name + ': no finished matches');
-  const season = last.strSeason, lastRound = +last.intRound;
+  const season = last.strSeason;
+  const saved = previous?.season === season ? previous.lastRound : 0;
 
   const round = async r => {
     await sleep(DELAY_MS);
     const events = (await getJSON(API + '/eventsround.php?id=' + id + '&r=' + r + '&s=' + season)).events || [];
     return events.map(e => toMatch(e, shortName)).sort((a, b) => a.time.localeCompare(b.time));
   };
-  const rounds = {[lastRound]: await round(lastRound)};
-  const next = await round(lastRound + 1);
+
+  let lastRound = Math.max(+last.intRound, saved);
+  let current = await round(lastRound);
+  let next = await round(lastRound + 1);
+  for (let i = 0; i < MAX_STEPS_FORWARD && next.some(isFinished); i++) {
+    lastRound++;
+    current = next;
+    next = await round(lastRound + 1);
+  }
+  const rounds = {[lastRound]: current};
   if (next.length) rounds[lastRound + 1] = next;
   return {id, name, season, lastRound, nextRound: next.length ? lastRound + 1 : null, rounds};
 }
 
 if (isMain(import.meta.url)) run(async () => {
+  const old = (await readData('leagues.json', null))?.leagues || [];
   const leagues = [];
   for (const [i, l] of LEAGUES.entries()) {
     try {
-      leagues.push(await league(l, i === 0));
+      leagues.push(await league(l, i === 0, old.find(o => o.id === l.id)));
     } catch (err) {
       console.error(err.message);  // one failing league does not drop the others
     }

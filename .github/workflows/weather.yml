@@ -19,5 +19,5 @@ jobs:
   run:
     uses: ./.github/workflows/update.yml
     with:
-      scripts: update-weather.mjs update-weather-live.mjs
+      scripts: update-weather.mjs
       args: ${{ inputs.backfill && inputs.backfill != '0' && format('--backfill {0}', inputs.backfill) || '' }}
