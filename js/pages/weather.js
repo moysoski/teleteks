@@ -1,7 +1,8 @@
-// Weather section, pages 160-164.
+// Weather section, pages 160-165.
 import {put, putR, mos, rowBg, BLK, RED, GRN, YEL, BLU, MAG, CYN, WHT} from '../teletext.js';
-import {CITIES, cityById} from '../cities.js';
-import {weather, describe, windDir} from '../weather.js';
+import {CITIES, TZ, cityById} from '../cities.js';
+import {weather, describe, windDir, skopjeNow} from '../weather.js';
+import {sunTimes, moonPhase} from '../astro.js';
 import {data, status} from '../data.js';
 import {rained} from '../score.js';
 import {title, subCounter, fastext, FAST_WEATHER, ready, tempColor, minMax, DAYS, shortDate, weekday} from './common.js';
@@ -78,6 +79,13 @@ function warning(days) {
   if (hottest.max >= 35) return ['ЖЕШТИНИ: ' + hottest.name + ' ДО ' + hottest.max + '°', YEL, RED, true];
   if (wettest.rain >= 10) return ['ПОВЕЌЕ ВРНЕЖИ: ' + wettest.name, WHT, BLU, false];
   return ['БЕЗ ПРЕДУПРЕДУВАЊА', BLK, GRN, false];
+}
+
+// Newsflash text for tomorrow's frost or heat, or null; shown as a box over any page (see app.js)
+export function newsflash() {
+  if (!weather.forecast) return null;
+  const [text, , , urgent] = warning(weather.forecast.map(c => ({...c, ...c.days[1]})));
+  return urgent ? text : null;
 }
 
 function p160() {
@@ -276,10 +284,61 @@ function p164() {
   fastext(FAST_WEATHER);
 }
 
+/* ---------- 165 sun and moon, computed locally ---------- */
+const clockFormat = new Intl.DateTimeFormat('en-GB', {timeZone: TZ, hour: '2-digit', minute: '2-digit', hourCycle: 'h23'});
+const hhmm = d => clockFormat.format(d);
+const duration = ms => Math.floor(ms / 3600e3) + ':' + String(Math.round(ms / 60e3) % 60).padStart(2, '0');
+const dayMonth = d => new Intl.DateTimeFormat('en-GB', {timeZone: TZ, day: '2-digit', month: '2-digit'}).format(d).replace('/', '.');
+
+// Mosaic moon: lit part of a disc of radius R sextant pixels, centred on pixel (px, py)
+function moon(px, py, R, fraction) {
+  const k = Math.cos(2 * Math.PI * fraction), waxing = fraction < 0.5;
+  for (let r = Math.floor((py - R) / 3); r <= Math.floor((py + R) / 3); r++) {
+    for (let c = Math.floor((px - R) / 2); c <= Math.floor((px + R) / 2); c++) {
+      let bits = 0;
+      for (let i = 0; i < 6; i++) {
+        const nx = (c * 2 + (i & 1) + 0.5 - px) / R, ny = (r * 3 + (i >> 1) + 0.5 - py) / R;
+        if (nx * nx + ny * ny > 1) continue;
+        const edge = k * Math.sqrt(1 - ny * ny);
+        if (waxing ? nx > edge : nx < -edge) bits |= 1 << i;  // the right side grows first (northern sky)
+      }
+      if (bits) mos(r, c, bits, YEL);
+    }
+  }
+}
+
+function p165() {
+  title('СОНЦЕ И МЕСЕЧИНА');
+  const today = skopjeNow().date;
+  put(4, 1, DAYS[weekday(today)] + ' ' + shortDate(today), CYN);
+  put(5, 1, 'ГРАД', YEL);
+  putR(5, 18, 'ИЗГРЕВ', YEL);
+  putR(5, 27, 'ЗАЈДИС.', YEL);
+  putR(5, 36, 'ДЕН', YEL);
+  CITIES.forEach((c, i) => {
+    const r = 6 + i, t = sunTimes(today, c.lat, c.lon);
+    put(r, 1, c.name, WHT);
+    putR(r, 18, hhmm(t.rise), YEL);
+    putR(r, 27, hhmm(t.set), RED);
+    putR(r, 36, duration(t.set - t.rise), GRN);
+  });
+
+  const m = moonPhase();
+  moon(12, 57, 10, m.fraction);
+  put(15, 14, 'МЕСЕЧИНА', YEL);
+  put(17, 14, m.name, WHT);
+  put(19, 14, 'Осветлена: ' + Math.round(m.lit * 100) + '%', CYN);
+  put(20, 14, 'Полна: ' + dayMonth(m.nextFull), WHT);
+  put(21, 14, 'Млада: ' + dayMonth(m.nextNew), WHT);
+  put(23, 1, 'Пресметано, без надворешен извор.', MAG);
+  fastext(FAST_WEATHER);
+}
+
 export const weatherPages = {
   160: {render: p160},
   161: {render: p161, subpages: () => CITIES.length},
   162: {render: p162},
   163: {render: p163, subpages: () => data.weatherResults?.days ? RESULT_SUBS.length : 1},
-  164: {render: p164}
+  164: {render: p164},
+  165: {render: p165}
 };

@@ -3,15 +3,16 @@ import * as tt from './teletext.js';
 import {put, CYN, GRN, RED, WHT, YEL} from './teletext.js';
 import {loadWeather} from './weather.js';
 import {loadData} from './data.js';
-import {fastLinks} from './pages/common.js';
+import {fastLinks, newsflashBox} from './pages/common.js';
 import {homePages, notFound} from './pages/home.js';
-import {weatherPages} from './pages/weather.js';
+import {weatherPages, newsflash} from './pages/weather.js';
+import {funPages} from './pages/fun.js';
 import {moneyPages} from './pages/money.js';
 import {footballPages} from './pages/football.js';
 import {extraPages} from './pages/extra.js';
 import {drawTestCard, drawStartClock, toggleTone, stopTone} from './testcard.js';
 
-const PAGES = {...homePages, ...weatherPages, ...moneyPages, ...footballPages, ...extraPages};
+const PAGES = {...homePages, ...weatherPages, ...moneyPages, ...footballPages, ...funPages, ...extraPages};
 const HIDDEN = [888];  // easter eggs are skipped by ‹ ›
 const NUMBERS = Object.keys(PAGES).map(Number).filter(n => !HIDDEN.includes(n)).sort((a, b) => a - b);
 const SUBPAGE_SECONDS = 10;
@@ -21,6 +22,8 @@ const NIGHT_IDLE_MINUTES = 15;
 const MORNING_HOURS = [6, 9];  // station clock on the first visit of the day in this window
 const MORNING_SECONDS = 10;
 const MORNING_KEY = 'teletekst-morning';
+const FLASH_SECONDS = 8;
+const FLASH_KEY = 'teletekst-newsflash';
 
 const state = {
   current: null,
@@ -32,6 +35,7 @@ const state = {
   typed: '',
   ident: null,  // 'night' test card or 'morning' clock, drawn instead of teletext
   identEnd: 0,
+  flash: null,  // {text, until}: newsflash box over the page
   tone: false,
   lastInput: Date.now()
 };
@@ -81,6 +85,7 @@ function render() {
       state.sub = Math.min(state.sub, subpageCount() - 1);
       p.render(state.sub);
     } else notFound(state.current);
+    if (state.flash) newsflashBox(state.flash.text, 160);
   }
   header();
   tt.draw();
@@ -104,6 +109,7 @@ function go(n) {
     state.sub = 0;
     state.subTimer = 0;
     render();
+    maybeNewsflash();
     try { history.replaceState(null, '', '#p' + n); } catch (e) { /* file:// or sandboxed */ }
   }, PAGES[n] ? 1100 : 2400);
 }
@@ -202,6 +208,26 @@ canvas.addEventListener('click', () => {
   tt.draw();
 });
 
+/* ---------- newsflash ---------- */
+// Tomorrow's frost or heat warning, once per browser session, for FLASH_SECONDS over the current page
+function maybeNewsflash() {
+  if (state.flash || state.ident || state.searching || state.current == null) return;
+  const text = newsflash();
+  if (!text) return;
+  try {
+    if (sessionStorage.getItem(FLASH_KEY) === text) return;
+    sessionStorage.setItem(FLASH_KEY, text);
+  } catch { /* storage unavailable: show it anyway */ }
+  state.flash = {text, until: Date.now() + FLASH_SECONDS * 1000};
+  render();
+}
+
+function clearNewsflash() {
+  if (!state.flash) return;
+  state.flash = null;
+  render();
+}
+
 /* ---------- timers ---------- */
 setInterval(() => {
   if (state.searching && !state.typed) {
@@ -218,6 +244,7 @@ setInterval(() => {
 
 setInterval(() => {
   if (state.ident === 'morning' && Date.now() >= state.identEnd) hideIdent();
+  if (state.flash && Date.now() >= state.flash.until) clearNewsflash();
   if (!state.ident && isNight() && Date.now() - state.lastInput > NIGHT_IDLE_MINUTES * 60e3) showIdent('night');
   if (state.ident || state.searching || state.hold || subpageCount() < 2) return;
   if (++state.subTimer < SUBPAGE_SECONDS) return;
@@ -226,7 +253,11 @@ setInterval(() => {
   render();
 }, 1000);
 
-const rerender = () => { if (!state.searching && !state.ident) render(); };
+const rerender = () => {
+  if (state.searching || state.ident) return;
+  render();
+  maybeNewsflash();
+};
 const reload = () => Promise.all([loadWeather(rerender), loadData(rerender)]);
 setInterval(reload, REFRESH_MINUTES * 60 * 1000);
 
@@ -236,6 +267,7 @@ function input(action) {
   return (...args) => {
     state.lastInput = Date.now();
     if (state.ident) return hideIdent();
+    clearNewsflash();
     action(...args);
   };
 }

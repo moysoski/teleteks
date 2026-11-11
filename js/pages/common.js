@@ -27,6 +27,14 @@ export function fastext(links = FAST_DEFAULT) {
   [RED, GRN, YEL, CYN].forEach((fg, i) => put(24, 1 + i * 10, links[i][0], fg));
 }
 
+/* ---------- newsflash: an urgent box over whatever page is shown ---------- */
+export function newsflashBox(text, page) {
+  for (let r = 17; r <= 21; r++) put(r, 1, ' '.repeat(38), WHT, RED);
+  put(17, 2, 'ВОНРЕДНО', YEL, RED, {fl: true});
+  put(18, 2, text, WHT, RED, {dh: true});
+  put(20, 2, 'Детали на страница ' + page, YEL, RED);
+}
+
 /* ---------- loading states ---------- */
 export function loading(row = 8) {
   put(row, 1, 'ВЧИТУВАЊЕ...', WHT, BLK, {fl: true});

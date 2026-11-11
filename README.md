@@ -19,16 +19,22 @@ Scheduled GitHub Actions workflows are the "backend".
 | 162 | PM10, 24 h average | Open-Meteo Air Quality (CAMS) | live |
 | 163 | How often the forecast was right, as a league table | own scoring | daily |
 | 164 | Quiz: guess tomorrow's minimum (press REVEAL) | Open-Meteo | live |
+| 165 | Sunrise, sunset and day length per city, moon phase (mosaic moon) | computed locally (`js/astro.js`) | |
 | 200 | Exchange rates, middle rate | NBRM | 3× daily |
 | 300 | Football: last round and the next one | TheSportsDB | every 3 h |
 | 301 | League table and form | computed from results | every 3 h |
 | 302 | Fixtures, next 3 rounds | TheSportsDB | every 3 h |
+| 400 | Horoscope, 3 subpages, for fun: sentences picked by date | `js/pages/fun.js` | daily |
 | 500 | Lotto 7, latest draw | State Lottery (loto.mk) | 3× daily |
 | 888 | Subtitles (easter egg, not in the index) | | |
 
 Night mode: from 01:00 to 06:00 (the viewer's local time) the site opens on a test card, "Крај на програмата".
 Tap the screen for the 1 kHz tone, press any remote button for teletext. A link to a page
 (`#p300`) always opens teletext; `#kraj` opens the test card at any hour.
+
+Newsflash: when tomorrow brings frost or heat (the same warning as on page 160), a red "ВОНРЕДНО"
+box appears over the current page for 8 seconds, once per browser session, like teletext newsflashes
+over the TV picture. Any button closes it.
 
 Morning: on the first visit of the day between 06:00 and 09:00 a station clock ("Почеток на
 програмата") counts down 10 seconds, then teletext starts. `#pocetok` opens it at any hour.
