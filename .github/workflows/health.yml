@@ -36,8 +36,11 @@ jobs:
           gh label create sources --color B60205 --description "Data source problems" --force
           issue=$(gh issue list --label sources --state open --json number --jq '.[0].number')
           printf '\n[Детали од проверката](%s)\n' "$RUN_URL" >> summary.md
+          # explicit ifs: a bare `[ -n "$issue" ] && ...` with no open issue would end the step with exit 1
           if [ "$OUTCOME" = "success" ]; then
-            [ -n "$issue" ] && gh issue close "$issue" --comment "Сите извори повторно работат. $RUN_URL"
+            if [ -n "$issue" ]; then
+              gh issue close "$issue" --comment "Сите извори повторно работат. $RUN_URL"
+            fi
           elif [ -n "$issue" ]; then
             gh issue comment "$issue" --body-file summary.md
           else
