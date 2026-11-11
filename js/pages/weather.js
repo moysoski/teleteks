@@ -260,7 +260,7 @@ function p163(sub) {
 
 /* ---------- 164 quiz, answer hidden until REVEAL ---------- */
 function p164() {
-  title('КВИЗ', YEL, MAG);
+  title('ПОГОДИ ЈА ПРОГНОЗАТА', YEL, MAG);
   if (!ready(weather.forecastStatus, weather.forecast)) return fastext(FAST_WEATHER);
 
   const tomorrow = weather.forecast[0].days[1].date;
