@@ -24,6 +24,8 @@ Scheduled GitHub Actions workflows are the "backend".
 | 300 | Football: last round and the next one | TheSportsDB | every 3 h |
 | 301 | League table and form | computed from results | every 3 h |
 | 302 | Fixtures, next 3 rounds | TheSportsDB | every 3 h |
+| 310 | Foreign leagues, last round: England, Spain, Italy, Germany, France, Champions League; one rotating subpage per league | TheSportsDB | every 3 h |
+| 311 | Foreign leagues, next round | TheSportsDB | every 3 h |
 | 400 | Horoscope, 3 subpages, for fun: sentences picked by date | `js/pages/fun.js` | daily |
 | 500 | Lotto 7, latest draw | State Lottery (loto.mk) | 3× daily |
 | 888 | Subtitles (easter egg, not in the index) | | |
@@ -68,7 +70,7 @@ Links to a page: `#p163`.
 |----------|-----------|----------------|
 | `weather.yml` | `update-weather.mjs`, `update-weather-live.mjs` | 19:30 |
 | `daily.yml` | `update-rates.mjs`, `update-lotto.mjs`, `update-weather-live.mjs` | 06:00, 15:00, 21:00 |
-| `football.yml` | `update-football.mjs` | every 3 h, 09-21 |
+| `football.yml` | `update-football.mjs`, `update-leagues.mjs` | every 3 h, 09-21 |
 | `health.yml` | `check-sources.mjs` | 05:30 |
 
 `health.yml` checks every morning that each source is reachable, still free (no key, payment or
@@ -111,6 +113,9 @@ absolute: update them when the site moves to its own domain. `og.png` (1200×630
   in the standings, so `301` is computed from results (points, goal difference, goals; the
   league's head-to-head rule is not applied). Rounds already finished are not fetched again.
   A premium key can be added as the `THESPORTSDB_KEY` repository secret.
+  Foreign leagues (`update-leagues.mjs`) need three requests each: the latest finished match gives the
+  season and round, then that round and the next one. Team names stay in Latin, shortened to 12 characters
+  like on HRT teletext.
 
 ## Development
 

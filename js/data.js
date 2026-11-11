@@ -3,6 +3,7 @@ const FILES = {
   weatherResults: 'data/weather-results.json',
   rates: 'data/rates.json',
   football: 'data/football.json',
+  leagues: 'data/leagues.json',
   lotto: 'data/lotto.json'
 };
 

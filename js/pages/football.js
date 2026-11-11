@@ -1,4 +1,5 @@
-// Football section: 300 results, 301 table, 302 fixtures (Macedonian First League, not live).
+// Football section (not live): 300 results, 301 table, 302 fixtures of the Macedonian First League;
+// 310 results and 311 fixtures of foreign leagues, one rotating subpage per league.
 import {put, putR, BLK, RED, GRN, YEL, MAG, CYN, WHT} from '../teletext.js';
 import {TZ} from '../cities.js';
 import {data, status} from '../data.js';
@@ -125,8 +126,44 @@ function p302(sub) {
   fastext(FAST_FOOTBALL);
 }
 
+/* ---------- 310 / 311 foreign leagues: each league (or part of a long round) is a subpage ---------- */
+// Many subpages on a 10-second carousel: you wait for your match, and it is gone before you finish reading
+const MATCHES_PER_SUBPAGE = 10;
+
+function leagueSubpages(which) {
+  const out = [];
+  for (const league of data.leagues?.leagues || []) {
+    const round = which === 'last' ? league.lastRound : league.nextRound;
+    const matches = round ? league.rounds[round] || [] : [];
+    for (let i = 0; i < matches.length; i += MATCHES_PER_SUBPAGE) {
+      out.push({league, round, matches: matches.slice(i, i + MATCHES_PER_SUBPAGE)});
+    }
+  }
+  return out;
+}
+
+function foreign(sub, which) {
+  header();
+  if (!ready(status.leagues, data.leagues)) return fastext(FAST_FOOTBALL);
+  const subs = leagueSubpages(which);
+  subCounter(sub, subs.length, GRN, BLK);
+  if (!subs.length) {
+    put(6, 1, 'НЕМА НАТПРЕВАРИ', YEL);
+    return fastext(FAST_FOOTBALL);
+  }
+  const s = subs[sub];
+  put(4, 1, s.league.name, CYN);
+  putR(4, 39, (which === 'next' ? 'СЛЕДНО ' : '') + s.round + '. КОЛО', WHT);
+  s.matches.forEach((m, i) => matchLine(6 + i, m));
+  put(22, 1, which === 'last' ? 'Распоред: страница 311' : 'Резултати: страница 310', MAG);
+  put(23, 1, 'Подстраниците се менуваат сами.', MAG);
+  fastext(FAST_FOOTBALL);
+}
+
 export const footballPages = {
   300: {render: p300},
   301: {render: p301, subpages: () => 2},
-  302: {render: p302, subpages: () => Math.max(1, upcoming(data.football).length)}
+  302: {render: p302, subpages: () => Math.max(1, upcoming(data.football).length)},
+  310: {render: sub => foreign(sub, 'last'), subpages: () => Math.max(1, leagueSubpages('last').length)},
+  311: {render: sub => foreign(sub, 'next'), subpages: () => Math.max(1, leagueSubpages('next').length)}
 };

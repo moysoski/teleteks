@@ -16,7 +16,7 @@ export function subCounter(sub, count, bg = BLU, fg = WHT) {
 
 /* ---------- Fastext: four coloured links on row 24, different per section ---------- */
 export const FAST_WEATHER = [['КАРТА', 160], ['5 ДЕНА', 161], ['ВОЗДУХ', 162], ['ИНДЕКС', 100]];
-export const FAST_FOOTBALL = [['РЕЗУЛТАТИ', 300], ['ТАБЕЛА', 301], ['РАСПОРЕД', 302], ['ИНДЕКС', 100]];
+export const FAST_FOOTBALL = [['РЕЗУЛТАТИ', 300], ['ТАБЕЛА', 301], ['СТРАНСКИ', 310], ['ИНДЕКС', 100]];
 export const FAST_DEFAULT = [['ВРЕМЕ', 160], ['КУРС', 200], ['ФУДБАЛ', 300], ['ИНДЕКС', 100]];
 
 // The remote's colour buttons follow whatever the current page drew

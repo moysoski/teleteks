@@ -116,6 +116,12 @@ const CHECKS = [
     const next = f?.nextRound && f.rounds[f.nextRound]?.[0];
     if (!f) problems.push('нема фудбалски податоци');
     else if (next && daysAgo(next.time) > 3) problems.push('следното коло е во минатото, фудбалот не се ажурира');
+    const leagues = (await readData('leagues.json', null))?.leagues || [];
+    if (leagues.length < 4) problems.push('странски лиги: само ' + leagues.length + ' од 6');
+    for (const l of leagues) {
+      const first = l.nextRound && l.rounds[l.nextRound]?.[0];
+      if (first && daysAgo(first.time) > 3) problems.push(l.name + ': следното коло е во минатото');
+    }
     assert(!problems.length, problems.join('; '));
     return {ms: 0, note: 'сите датотеки се свежи'};
   }]

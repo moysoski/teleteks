@@ -15,6 +15,6 @@ jobs:
   run:
     uses: ./.github/workflows/update.yml
     with:
-      scripts: update-football.mjs
+      scripts: update-football.mjs update-leagues.mjs
     secrets:
       THESPORTSDB_KEY: ${{ secrets.THESPORTSDB_KEY }}

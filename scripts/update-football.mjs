@@ -49,12 +49,13 @@ function teamName(name) {
 
 const isFinished = m => FINISHED.includes(m.status);
 
-function toMatch(e) {
+// One TheSportsDB event -> {time (UTC ISO), home, away, hs, as, status}; `name` shortens the team names
+export function toMatch(e, name = teamName) {
   const score = v => v === null || v === '' ? null : +v;
   return {
     time: e.strTimestamp ? e.strTimestamp.replace(/(\+00:00)?$/, 'Z') : e.dateEvent + 'T00:00:00Z',
-    home: teamName(e.strHomeTeam),
-    away: teamName(e.strAwayTeam),
+    home: name(e.strHomeTeam),
+    away: name(e.strAwayTeam),
     hs: score(e.intHomeScore),
     as: score(e.intAwayScore),
     status: e.strStatus || 'NS'
@@ -99,7 +100,7 @@ if (isMain(import.meta.url)) run(async () => {
       if (!stored) break;  // the first round that does not exist yet ends the season so far
       continue;
     }
-    rounds[r] = events.map(toMatch).sort((a, b) => a.time.localeCompare(b.time));
+    rounds[r] = events.map(e => toMatch(e)).sort((a, b) => a.time.localeCompare(b.time));
   }
 
   const numbers = Object.keys(rounds).map(Number);
