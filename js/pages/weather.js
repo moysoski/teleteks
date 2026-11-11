@@ -290,19 +290,22 @@ const hhmm = d => clockFormat.format(d);
 const duration = ms => Math.floor(ms / 3600e3) + ':' + String(Math.round(ms / 60e3) % 60).padStart(2, '0');
 const dayMonth = d => new Intl.DateTimeFormat('en-GB', {timeZone: TZ, day: '2-digit', month: '2-digit'}).format(d).replace('/', '.');
 
-// Mosaic moon: lit part of a disc of radius R sextant pixels, centred on pixel (px, py)
+// Mosaic moon: lit part in yellow, the dark part in blue, on a disc of radius R sextant pixels centred on (px, py).
+// A cell has one colour, so a cell with any lit pixel shows only its lit pixels.
 function moon(px, py, R, fraction) {
   const k = Math.cos(2 * Math.PI * fraction), waxing = fraction < 0.5;
   for (let r = Math.floor((py - R) / 3); r <= Math.floor((py + R) / 3); r++) {
     for (let c = Math.floor((px - R) / 2); c <= Math.floor((px + R) / 2); c++) {
-      let bits = 0;
+      let lit = 0, dark = 0;
       for (let i = 0; i < 6; i++) {
         const nx = (c * 2 + (i & 1) + 0.5 - px) / R, ny = (r * 3 + (i >> 1) + 0.5 - py) / R;
         if (nx * nx + ny * ny > 1) continue;
         const edge = k * Math.sqrt(1 - ny * ny);
-        if (waxing ? nx > edge : nx < -edge) bits |= 1 << i;  // the right side grows first (northern sky)
+        if (waxing ? nx > edge : nx < -edge) lit |= 1 << i;  // the right side grows first (northern sky)
+        else dark |= 1 << i;
       }
-      if (bits) mos(r, c, bits, YEL);
+      if (lit) mos(r, c, lit, YEL);
+      else if (dark) mos(r, c, dark, BLU);
     }
   }
 }

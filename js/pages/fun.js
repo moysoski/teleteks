@@ -60,11 +60,21 @@ export const ADVICE = [
 
 const SIGNS_PER_PAGE = 4;
 
-// Same day, same text: a small hash of the date and the sign
+// for tests
+export const pickFor = (list, date, sign) => list === 'day' ? pick(DAY, date, sign, 7) : pick(ADVICE, date, sign, 13);
+
+// Same day, same text for everyone, and no two signs share a sentence that day:
+// the list is shuffled with the date as seed and sign number i takes entry i
 function pick(list, date, sign, salt) {
-  let h = salt;
-  for (const ch of date + sign) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  return list[h % list.length];
+  let seed = salt;
+  for (const ch of date) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+  const order = list.map((_, i) => i);
+  for (let i = order.length - 1; i > 0; i--) {
+    seed = (seed * 1103515245 + 12345) >>> 0;
+    const j = seed % (i + 1);
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return list[order[sign]];
 }
 
 function p400(sub) {
@@ -77,8 +87,9 @@ function p400(sub) {
     const r = 4 + i * 5;
     put(r, 1, name, YEL, BLK, {dh: true});
     put(r, 28, dates, CYN);
-    put(r + 2, 1, pick(DAY, today, name, 7), WHT);
-    put(r + 3, 1, pick(ADVICE, today, name, 13), CYN);
+    const sign = sub * SIGNS_PER_PAGE + i;
+    put(r + 2, 1, pick(DAY, today, sign, 7), WHT);
+    put(r + 3, 1, pick(ADVICE, today, sign, 13), CYN);
   });
   put(23, 1, 'За забава. Ѕвездите не гарантираат.', MAG);
   fastext();

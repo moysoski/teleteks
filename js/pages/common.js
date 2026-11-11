@@ -29,7 +29,7 @@ export function fastext(links = FAST_DEFAULT) {
 
 /* ---------- newsflash: an urgent box over whatever page is shown ---------- */
 export function newsflashBox(text, page) {
-  for (let r = 17; r <= 21; r++) put(r, 1, ' '.repeat(38), WHT, RED);
+  for (let r = 17; r <= 21; r++) put(r, 0, ' '.repeat(40), WHT, RED);
   put(17, 2, 'ВОНРЕДНО', YEL, RED, {fl: true});
   put(18, 2, text, WHT, RED, {dh: true});
   put(20, 2, 'Детали на страница ' + page, YEL, RED);
