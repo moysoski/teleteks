@@ -78,22 +78,37 @@ const subpageCount = () => page()?.subpages?.() || 1;
 const shareButton = document.getElementById('share-button');
 const pageUrl = () => location.origin + location.pathname + '#p' + (state.current || 100);
 
+const SHARE_FEEDBACK_MS = 2500;
+let shareFeedbackUntil = 0;  // while a result is shown, re-renders (subpage rotation) leave the button alone
+
 function syncShareButton() {
+  if (Date.now() < shareFeedbackUntil) return;
   shareButton.textContent = 'СПОДЕЛИ P' + (state.current || 100);
 }
 
-// Phones: the system share sheet (Viber, WhatsApp...). Elsewhere: copy the link.
+function shareFeedback(text, spoken) {
+  shareButton.textContent = text;
+  srLive.textContent = spoken;
+  shareFeedbackUntil = Date.now() + SHARE_FEEDBACK_MS;
+  setTimeout(syncShareButton, SHARE_FEEDBACK_MS);
+}
+
+// Phones: the system share sheet (Viber, WhatsApp...). Elsewhere, or if that fails: copy the link.
 shareButton.addEventListener('click', async () => {
   const n = state.current || 100, url = pageUrl();
-  try {
-    if (navigator.share) return await navigator.share({title: 'Телетекст P' + n, text: 'Страница ' + n + ' на македонскиот телетекст', url});
-    await navigator.clipboard.writeText(url);
-    shareButton.textContent = 'ЛИНКОТ Е КОПИРАН';
-  } catch (err) {
-    if (err.name === 'AbortError') return;  // the viewer closed the share sheet
-    shareButton.textContent = url.replace(/^https?:\/\//, '');  // no clipboard: at least show the link
+  if (navigator.share) {
+    try {
+      return await navigator.share({title: 'Телетекст P' + n, text: 'Страница ' + n + ' на македонскиот телетекст', url});
+    } catch (err) {
+      if (err.name === 'AbortError') return;  // the viewer closed the share sheet
+    }
   }
-  setTimeout(syncShareButton, 2500);
+  try {
+    await navigator.clipboard.writeText(url);
+    shareFeedback('ЛИНКОТ Е КОПИРАН', 'Линкот е копиран.');
+  } catch {
+    shareFeedback(url.replace(/^https?:\/\//, ''), 'Линк: ' + url);  // no clipboard: at least show the link
+  }
 });
 
 function syncColourButtons() {
@@ -140,7 +155,7 @@ function go(n) {
     state.sub = 0;
     state.subTimer = 0;
     render(true);
-    countPage('/p' + n, 'P' + n);
+    if (PAGES[n]) countPage('/p' + n, 'P' + n);  // typos and missing pages would clutter the stats
     maybeNewsflash();
     try { history.replaceState(null, '', '#p' + n); } catch (e) { /* file:// or sandboxed */ }
   }, PAGES[n] ? 1100 : 2400);
@@ -210,9 +225,10 @@ function markMorningSeen() {
   try { localStorage.setItem(MORNING_KEY, new Date().toDateString()); } catch { /* ignore */ }
 }
 
-function showIdent(kind) {
+// count: false for the test card that appears by itself on an idle screen (not a new visit)
+function showIdent(kind, {count = true} = {}) {
   state.ident = kind;
-  countPage(kind === 'night' ? '/kraj' : '/pocetok', kind === 'night' ? 'Крај на програмата' : 'Почеток на програмата');
+  if (count) countPage(kind === 'night' ? '/kraj' : '/pocetok', kind === 'night' ? 'Крај на програмата' : 'Почеток на програмата');
   if (kind === 'night') {
     tt.view.overlay = (ctx, w, h) => drawTestCard(ctx, w, h, {clock: clock(new Date()), toneOn: state.tone, until: pad(NIGHT_HOURS[1]) + ':00'});
     srLive.textContent = 'Крај на програмата. Притисни копче на далечинскиот за телетекст.';
@@ -291,7 +307,7 @@ setInterval(() => {
 setInterval(() => {
   if (state.ident === 'morning' && Date.now() >= state.identEnd) hideIdent();
   if (state.flash && Date.now() >= state.flash.until) clearNewsflash();
-  if (!state.ident && isNight() && Date.now() - state.lastInput > NIGHT_IDLE_MINUTES * 60e3) showIdent('night');
+  if (!state.ident && isNight() && Date.now() - state.lastInput > NIGHT_IDLE_MINUTES * 60e3) showIdent('night', {count: false});
   if (state.ident || state.searching || state.hold || subpageCount() < 2) return;
   if (++state.subTimer < SUBPAGE_SECONDS) return;
   state.subTimer = 0;

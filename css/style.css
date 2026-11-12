@@ -125,8 +125,11 @@ canvas { display: block; width: 100%; aspect-ratio: 480 / 500; }
       calc(8px + env(safe-area-inset-bottom, 0px)) calc(12px + env(safe-area-inset-left, 0px));
   }
   /* screen aspect is 480:500, the bezel adds 12px on each side */
-  .tv { width: min(62vw, calc((100dvh - 16px - 24px) * 0.96 + 24px)); flex: none; padding: 10px; }
-  .side { width: auto; flex: 0 1 260px; max-height: calc(100dvh - 16px); overflow-y: auto; }
+  /* vh first for browsers without dvh, which would otherwise drop the whole declaration */
+  .tv { width: min(62vw, calc((100vh - 16px - 24px) * 0.96 + 24px)); flex: none; padding: 10px; }
+  .tv { width: min(62vw, calc((100dvh - 16px - 24px) * 0.96 + 24px)); }
+  .side { width: auto; flex: 0 1 260px; max-height: calc(100vh - 16px); overflow-y: auto; }
+  .side { max-height: calc(100dvh - 16px); }
   .remote { margin-top: 0; padding: 12px; gap: 8px; border-radius: 18px; }
   .digits, .fn, .fast { gap: 8px; }
   .remote button { height: 34px; font-size: 12px; }
@@ -134,10 +137,13 @@ canvas { display: block; width: 100%; aspect-ratio: 480 / 500; }
   .fast button { height: 22px; }
   .share, .install { margin-top: 8px; }
   .share button, .install button { padding: 9px 8px; font-size: 9px; }
-  .hint { display: none; }
+  /* the help text goes, the data credits stay (Open-Meteo is CC BY) */
+  .hint-help { display: none; }
+  .hint-data { margin-top: 8px; font-size: 11px; }
 }
 
 .hint { max-width: 340px; margin: 14px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; text-align: center; }
 .hint a { color: inherit; }
+.hint-data { margin-top: 4px; }
 
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
