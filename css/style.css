@@ -91,8 +91,10 @@ canvas { display: block; width: 100%; aspect-ratio: 480 / 500; }
 .fast .y { background: #e6c619; }
 .fast .c { background: #19b4c9; }
 
-.install { width: min(100%, 340px); margin-top: 14px; text-align: center; }
-.install button {
+.side { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+.share, .install { width: min(100%, 340px); margin-top: 14px; text-align: center; }
+.share button, .install button {
   width: 100%;
   font-family: "Press Start 2P", ui-monospace, monospace;
   font-size: 11px;
@@ -105,10 +107,35 @@ canvas { display: block; width: 100%; aspect-ratio: 480 / 500; }
   cursor: pointer;
   box-shadow: 0 3px 0 rgba(0, 0, 0, .45);
 }
-.install button:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0, 0, 0, .45); }
-.install button:focus-visible { outline: 3px solid #ffff00; outline-offset: 2px; }
+.share button:active, .install button:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0, 0, 0, .45); }
+.share button:focus-visible, .install button:focus-visible { outline: 3px solid #ffff00; outline-offset: 2px; }
 .install p { margin: 10px 4px 0; color: var(--fg); font-size: 14px; line-height: 1.5; }
 .install[hidden], .install p[hidden] { display: none; }
+
+.share button { background: var(--key); color: var(--keyfg); padding: 12px 10px; }
+
+/* Phone turned sideways: the screen takes the full height, the remote goes to its right */
+@media (orientation: landscape) and (max-height: 600px) {
+  body {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 16px;
+    padding: calc(8px + env(safe-area-inset-top, 0px)) calc(12px + env(safe-area-inset-right, 0px))
+      calc(8px + env(safe-area-inset-bottom, 0px)) calc(12px + env(safe-area-inset-left, 0px));
+  }
+  /* screen aspect is 480:500, the bezel adds 12px on each side */
+  .tv { width: min(62vw, calc((100dvh - 16px - 24px) * 0.96 + 24px)); flex: none; padding: 10px; }
+  .side { width: auto; flex: 0 1 260px; max-height: calc(100dvh - 16px); overflow-y: auto; }
+  .remote { margin-top: 0; padding: 12px; gap: 8px; border-radius: 18px; }
+  .digits, .fn, .fast { gap: 8px; }
+  .remote button { height: 34px; font-size: 12px; }
+  .fn button { height: 28px; font-size: 8px; }
+  .fast button { height: 22px; }
+  .share, .install { margin-top: 8px; }
+  .share button, .install button { padding: 9px 8px; font-size: 9px; }
+  .hint { display: none; }
+}
 
 .hint { max-width: 340px; margin: 14px 0 0; color: var(--muted); font-size: 14px; line-height: 1.45; text-align: center; }
 .hint a { color: inherit; }

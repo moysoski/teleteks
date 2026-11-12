@@ -74,6 +74,28 @@ function refreshHeader() {
 const page = () => PAGES[state.current];
 const subpageCount = () => page()?.subpages?.() || 1;
 
+/* ---------- share the current page ---------- */
+const shareButton = document.getElementById('share-button');
+const pageUrl = () => location.origin + location.pathname + '#p' + (state.current || 100);
+
+function syncShareButton() {
+  shareButton.textContent = 'СПОДЕЛИ P' + (state.current || 100);
+}
+
+// Phones: the system share sheet (Viber, WhatsApp...). Elsewhere: copy the link.
+shareButton.addEventListener('click', async () => {
+  const n = state.current || 100, url = pageUrl();
+  try {
+    if (navigator.share) return await navigator.share({title: 'Телетекст P' + n, text: 'Страница ' + n + ' на македонскиот телетекст', url});
+    await navigator.clipboard.writeText(url);
+    shareButton.textContent = 'ЛИНКОТ Е КОПИРАН';
+  } catch (err) {
+    if (err.name === 'AbortError') return;  // the viewer closed the share sheet
+    shareButton.textContent = url.replace(/^https?:\/\//, '');  // no clipboard: at least show the link
+  }
+  setTimeout(syncShareButton, 2500);
+});
+
 function syncColourButtons() {
   fastLinks.forEach(([label, n], i) => colourButtons[i].setAttribute('aria-label', label + ', страница ' + n));
 }
@@ -95,6 +117,7 @@ function render(announce = false) {
   header();
   tt.draw();
   syncColourButtons();
+  syncShareButton();
   if (announce || lastAnnounced.includes('ВЧИТУВАЊЕ')) {
     lastAnnounced = tt.text();
     srLive.textContent = lastAnnounced;
