@@ -89,6 +89,10 @@ The weather job:
 
 A **hit** means min and max are within 2 °C and the rain yes/no (≥ 1 mm) was right.
 
+Visits are counted with [GoatCounter](https://www.goatcounter.com/) (`js/stats.js`): no cookies, no IP
+addresses stored, so no consent banner. The script is loaded with an SRI hash; each teletext page is counted
+as its own path (`/p160`), subpage rotation is not. If the script is blocked, the site works the same.
+
 `sw.js` makes it an installable PWA that works offline with the last loaded data. `js/install.js`
 shows an "install on phone" button: the browser's install prompt on Android and desktop Chrome,
 short instructions on iPhone/iPad (Safari has no install API), hidden once installed.

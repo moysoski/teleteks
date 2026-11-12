@@ -11,6 +11,7 @@ import {moneyPages} from './pages/money.js';
 import {footballPages} from './pages/football.js';
 import {extraPages} from './pages/extra.js';
 import {drawTestCard, drawStartClock, toggleTone, stopTone} from './testcard.js';
+import {countPage} from './stats.js';
 
 const PAGES = {...homePages, ...weatherPages, ...moneyPages, ...footballPages, ...funPages, ...extraPages};
 const HIDDEN = [888];  // easter eggs are skipped by ‹ ›
@@ -116,6 +117,7 @@ function go(n) {
     state.sub = 0;
     state.subTimer = 0;
     render(true);
+    countPage('/p' + n, 'P' + n);
     maybeNewsflash();
     try { history.replaceState(null, '', '#p' + n); } catch (e) { /* file:// or sandboxed */ }
   }, PAGES[n] ? 1100 : 2400);
@@ -187,6 +189,7 @@ function markMorningSeen() {
 
 function showIdent(kind) {
   state.ident = kind;
+  countPage(kind === 'night' ? '/kraj' : '/pocetok', kind === 'night' ? 'Крај на програмата' : 'Почеток на програмата');
   if (kind === 'night') {
     tt.view.overlay = (ctx, w, h) => drawTestCard(ctx, w, h, {clock: clock(new Date()), toneOn: state.tone, until: pad(NIGHT_HOURS[1]) + ':00'});
     srLive.textContent = 'Крај на програмата. Притисни копче на далечинскиот за телетекст.';
