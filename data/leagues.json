@@ -264,15 +264,7 @@
     ],
     "13": [
      {
-      "time": "2026-11-22T16:00:00Z",
-      "home": "BARCELONA",
-      "away": "VILLARREAL",
-      "hs": null,
-      "as": null,
-      "status": "NS"
-     },
-     {
-      "time": "2026-11-22T16:00:00Z",
+      "time": "2026-11-20T20:00:00Z",
       "home": "ATH. BILBAO",
       "away": "ESPANYOL",
       "hs": null,
@@ -280,31 +272,7 @@
       "status": "NS"
      },
      {
-      "time": "2026-11-22T16:00:00Z",
-      "home": "SEVILLA",
-      "away": "REAL BETIS",
-      "hs": null,
-      "as": null,
-      "status": "NS"
-     },
-     {
-      "time": "2026-11-22T16:00:00Z",
-      "home": "LEVANTE",
-      "away": "ELCHE",
-      "hs": null,
-      "as": null,
-      "status": "NS"
-     },
-     {
-      "time": "2026-11-22T16:00:00Z",
-      "home": "REAL MADRID",
-      "away": "CELTA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
-     },
-     {
-      "time": "2026-11-22T16:00:00Z",
+      "time": "2026-11-21T13:00:00Z",
       "home": "ALAVES",
       "away": "DEPORTIVO",
       "hs": null,
@@ -312,23 +280,7 @@
       "status": "NS"
      },
      {
-      "time": "2026-11-22T16:00:00Z",
-      "home": "GETAFE",
-      "away": "ATLETICO",
-      "hs": null,
-      "as": null,
-      "status": "NS"
-     },
-     {
-      "time": "2026-11-22T16:00:00Z",
-      "home": "OSASUNA",
-      "away": "MALAGA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
-     },
-     {
-      "time": "2026-11-22T16:00:00Z",
+      "time": "2026-11-21T15:15:00Z",
       "home": "RAYO",
       "away": "VALENCIA",
       "hs": null,
@@ -336,9 +288,57 @@
       "status": "NS"
      },
      {
-      "time": "2026-11-22T16:00:00Z",
+      "time": "2026-11-21T17:30:00Z",
+      "home": "SEVILLA",
+      "away": "REAL BETIS",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-21T20:00:00Z",
+      "home": "REAL MADRID",
+      "away": "CELTA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-22T13:00:00Z",
+      "home": "BARCELONA",
+      "away": "VILLARREAL",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-22T15:15:00Z",
       "home": "RACING",
       "away": "R. SOCIEDAD",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-22T17:30:00Z",
+      "home": "OSASUNA",
+      "away": "MALAGA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-22T20:00:00Z",
+      "home": "GETAFE",
+      "away": "ATLETICO",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-23T20:00:00Z",
+      "home": "LEVANTE",
+      "away": "ELCHE",
       "hs": null,
       "as": null,
       "status": "NS"
@@ -470,6 +470,14 @@
      },
      {
       "time": "2026-11-22T11:30:00Z",
+      "home": "JUVENTUS",
+      "away": "VENEZIA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-22T14:00:00Z",
       "home": "SASSUOLO",
       "away": "GENOA",
       "hs": null,
@@ -478,16 +486,16 @@
      },
      {
       "time": "2026-11-22T14:00:00Z",
-      "home": "MILAN",
-      "away": "FROSINONE",
+      "home": "BOLOGNA",
+      "away": "UDINESE",
       "hs": null,
       "as": null,
       "status": "NS"
      },
      {
       "time": "2026-11-22T17:00:00Z",
-      "home": "BOLOGNA",
-      "away": "UDINESE",
+      "home": "MILAN",
+      "away": "FROSINONE",
       "hs": null,
       "as": null,
       "status": "NS"
@@ -501,17 +509,9 @@
       "status": "NS"
      },
      {
-      "time": "2026-11-23T17:30:00Z",
+      "time": "2026-11-23T19:45:00Z",
       "home": "MONZA",
       "away": "FIORENTINA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
-     },
-     {
-      "time": "2026-11-23T19:45:00Z",
-      "home": "JUVENTUS",
-      "away": "VENEZIA",
       "hs": null,
       "as": null,
       "status": "NS"
@@ -1135,5 +1135,5 @@
    }
   }
  ],
- "updated": "2026-11-11T21:18:07.274Z"
+ "updated": "2026-11-12T17:38:06.947Z"
 }
