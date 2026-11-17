@@ -1,90 +1,90 @@
 {
- "date": "2026-11-17",
- "prevDate": "2026-11-16",
+ "date": "2026-11-18",
+ "prevDate": "2026-11-17",
  "rates": [
   {
    "code": "EUR",
    "name": "ЕВРО",
    "unit": 1,
-   "rate": 61.5045,
-   "change": 0.0008
+   "rate": 61.512,
+   "change": 0.0075
   },
   {
    "code": "USD",
    "name": "САД ДОЛАР",
    "unit": 1,
-   "rate": 55.8421,
-   "change": 0.1927
+   "rate": 55.976,
+   "change": 0.1339
   },
   {
    "code": "CHF",
    "name": "ШВАЈЦАРСКИ ФРАНК",
    "unit": 1,
-   "rate": 66.5345,
-   "change": 0.1588
+   "rate": 66.6219,
+   "change": 0.0874
   },
   {
    "code": "GBP",
    "name": "БРИТАНСКА ФУНТА",
    "unit": 1,
-   "rate": 73.7022,
-   "change": 0.0971
+   "rate": 73.8395,
+   "change": 0.1373
   },
   {
    "code": "AUD",
    "name": "АВСТРАЛИСКИ ДОЛАР",
    "unit": 1,
-   "rate": 37.7305,
-   "change": -0.0296
+   "rate": 37.7004,
+   "change": -0.0301
   },
   {
    "code": "BRL",
    "name": "БРАЗИЛСКИ РЕАЛ",
    "unit": 1,
-   "rate": 9.7878,
-   "change": -0.0379
+   "rate": 9.681,
+   "change": -0.1068
   },
   {
    "code": "CAD",
    "name": "КАНАДСКИ ДОЛАР",
    "unit": 1,
-   "rate": 39.0902,
-   "change": 0.0601
+   "rate": 39.1696,
+   "change": 0.0794
   },
   {
    "code": "CNY",
    "name": "КИНЕСКИ ЈУАН",
    "unit": 1,
-   "rate": 8.3765,
-   "change": 0.0357
+   "rate": 8.3971,
+   "change": 0.0206
   },
   {
    "code": "CZK",
    "name": "ЧЕШКА КРУНА",
    "unit": 1,
-   "rate": 2.5178,
-   "change": -0.0004
+   "rate": 2.5223,
+   "change": 0.0045
   },
   {
    "code": "DKK",
    "name": "ДАНСКА КРУНА",
    "unit": 1,
-   "rate": 8.2278,
-   "change": 0.0005
+   "rate": 8.2291,
+   "change": 0.0013
   },
   {
    "code": "HKD",
    "name": "ХОНГКОНШКИ ДОЛАР",
    "unit": 1,
-   "rate": 7.1164,
-   "change": 0.0237
+   "rate": 7.1342,
+   "change": 0.0178
   },
   {
    "code": "HUF",
    "name": "УНГАРСКА ФОРИНТА",
    "unit": 1,
-   "rate": 0.1688,
-   "change": 0.0006
+   "rate": 0.1686,
+   "change": -0.0002
   },
   {
    "code": "IDR",
@@ -97,128 +97,128 @@
    "code": "ILS",
    "name": "ИЗРАЕЛСКИ ШЕКЕЛ",
    "unit": 1,
-   "rate": 17.3208,
-   "change": -0.0115
+   "rate": 17.2428,
+   "change": -0.078
   },
   {
    "code": "INR",
    "name": "ИНДИСКА РУПИЈА",
    "unit": 1,
-   "rate": 0.5945,
-   "change": 0.004
+   "rate": 0.5988,
+   "change": 0.0043
   },
   {
    "code": "JPY",
    "name": "ЈАПОНСКИ ЈЕН",
    "unit": 1,
-   "rate": 0.3499,
-   "change": 0.0021
+   "rate": 0.3514,
+   "change": 0.0015
   },
   {
    "code": "KRW",
    "name": "ЈУЖНОКОРЕЈСКИ ВОН",
    "unit": 1,
-   "rate": 0.0418,
-   "change": 0.0002
+   "rate": 0.0419,
+   "change": 0.0001
   },
   {
    "code": "MXN",
    "name": "МЕКСИКАНСКО ПЕСО",
    "unit": 1,
-   "rate": 3.0086,
-   "change": 0.0156
+   "rate": 3.0317,
+   "change": 0.0231
   },
   {
    "code": "MYR",
    "name": "МАЛЕЗИСКИ РИНГИТ",
    "unit": 1,
-   "rate": 13.6368,
-   "change": 0.0223
+   "rate": 13.6745,
+   "change": 0.0377
   },
   {
    "code": "NOK",
    "name": "НОРВЕШКА КРУНА",
    "unit": 1,
-   "rate": 5.8166,
-   "change": -0.0024
+   "rate": 5.8165,
+   "change": -0.0001
   },
   {
    "code": "NZD",
    "name": "НОВОЗЕЛАНДСКИ ДОЛАР",
    "unit": 1,
-   "rate": 30.7969,
-   "change": 0.0112
+   "rate": 30.7791,
+   "change": -0.0178
   },
   {
    "code": "PHP",
    "name": "ФИЛИПИНСКО ПЕСО",
    "unit": 1,
-   "rate": 0.8732,
-   "change": 0.0011
+   "rate": 0.8791,
+   "change": 0.0059
   },
   {
    "code": "PLN",
    "name": "ПОЛСКА ЗЛОТА",
    "unit": 1,
-   "rate": 13.9688,
-   "change": 0.0265
+   "rate": 13.9679,
+   "change": -0.0009
   },
   {
    "code": "RON",
    "name": "РОМАНСКИ ЛЕУ",
    "unit": 1,
-   "rate": 11.4977,
-   "change": 0.0004
+   "rate": 11.5014,
+   "change": 0.0037
   },
   {
    "code": "RSD",
    "name": "СРПСКИ ДИНАР",
    "unit": 1,
-   "rate": 0.523,
-   "change": 0.0001
+   "rate": 0.5229,
+   "change": -0.0001
   },
   {
    "code": "RUB",
    "name": "РУСКА РУБЉА",
    "unit": 1,
-   "rate": 0.6764,
-   "change": -0.0001
+   "rate": 0.6821,
+   "change": 0.0057
   },
   {
    "code": "SEK",
    "name": "ШВЕДСКА КРУНА",
    "unit": 1,
-   "rate": 5.5434,
-   "change": 0.0063
+   "rate": 5.5366,
+   "change": -0.0068
   },
   {
    "code": "SGD",
    "name": "СИНГАПУРСКИ ДОЛАР",
    "unit": 1,
-   "rate": 43.3283,
-   "change": 0.1254
+   "rate": 43.4315,
+   "change": 0.1032
   },
   {
    "code": "THB",
    "name": "ТАЈЛАНДСКИ БАХТ",
    "unit": 1,
-   "rate": 1.6478,
-   "change": 0.007
+   "rate": 1.6541,
+   "change": 0.0063
   },
   {
    "code": "TRY",
    "name": "ТУРСКА ЛИРА",
    "unit": 1,
-   "rate": 1.1081,
-   "change": 0.0032
+   "rate": 1.1104,
+   "change": 0.0023
   },
   {
    "code": "ZAR",
    "name": "ЈУЖНОАФРИКАНСКИ РАНД",
    "unit": 1,
-   "rate": 3.2959,
-   "change": 0.0154
+   "rate": 3.3058,
+   "change": 0.0099
   }
  ],
- "updated": "2026-11-16T23:36:58.305Z"
+ "updated": "2026-11-17T15:23:25.613Z"
 }
