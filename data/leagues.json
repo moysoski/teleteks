@@ -4,139 +4,57 @@
    "id": 4328,
    "name": "АНГЛИЈА",
    "season": "2026-2027",
-   "lastRound": 10,
-   "nextRound": 11,
+   "lastRound": 11,
+   "nextRound": 12,
    "rounds": {
-    "10": [
-     {
-      "time": "2026-11-06T20:00:00Z",
-      "home": "EVERTON",
-      "away": "COVENTRY",
-      "hs": 3,
-      "as": 1,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-07T12:30:00Z",
-      "home": "LEEDS",
-      "away": "TOTTENHAM",
-      "hs": 1,
-      "as": 0,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-07T15:00:00Z",
-      "home": "FULHAM",
-      "away": "NEWCASTLE",
-      "hs": 1,
-      "as": 1,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-07T15:00:00Z",
-      "home": "ARSENAL",
-      "away": "HULL CITY",
-      "hs": 1,
-      "as": 0,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-07T17:30:00Z",
-      "home": "NOTT'M FOR.",
-      "away": "MAN CITY",
-      "hs": 3,
-      "as": 1,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T14:00:00Z",
-      "home": "BRIGHTON",
-      "away": "BRENTFORD",
-      "hs": 2,
-      "as": 0,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T14:00:00Z",
-      "home": "CR. PALACE",
-      "away": "LIVERPOOL",
-      "hs": 1,
-      "as": 3,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T14:00:00Z",
-      "home": "IPSWICH TOWN",
-      "away": "BOURNEMOUTH",
-      "hs": 1,
-      "as": 2,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T14:00:00Z",
-      "home": "SUNDERLAND",
-      "away": "CHELSEA",
-      "hs": 1,
-      "as": 0,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T16:30:00Z",
-      "home": "MAN UNITED",
-      "away": "ASTON VILLA",
-      "hs": 4,
-      "as": 4,
-      "status": "FT"
-     }
-    ],
     "11": [
      {
       "time": "2026-11-21T12:30:00Z",
       "home": "MAN CITY",
       "away": "FULHAM",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T15:00:00Z",
       "home": "BOURNEMOUTH",
       "away": "NOTT'M FOR.",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 0,
+      "status": "2H"
      },
      {
       "time": "2026-11-21T15:00:00Z",
       "home": "TOTTENHAM",
       "away": "IPSWICH TOWN",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 0,
+      "status": "2H"
      },
      {
       "time": "2026-11-21T15:00:00Z",
       "home": "CHELSEA",
       "away": "LEEDS",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 3,
+      "status": "2H"
      },
      {
       "time": "2026-11-21T15:00:00Z",
       "home": "ASTON VILLA",
       "away": "SUNDERLAND",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 0,
+      "status": "2H"
      },
      {
       "time": "2026-11-21T15:00:00Z",
       "home": "COVENTRY",
       "away": "CR. PALACE",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 2,
+      "status": "2H"
      },
      {
       "time": "2026-11-21T17:30:00Z",
@@ -170,6 +88,88 @@
       "as": null,
       "status": "NS"
      }
+    ],
+    "12": [
+     {
+      "time": "2026-11-27T20:00:00Z",
+      "home": "NOTT'M FOR.",
+      "away": "CHELSEA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-28T15:00:00Z",
+      "home": "MAN UNITED",
+      "away": "BRENTFORD",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-28T15:00:00Z",
+      "home": "LEEDS",
+      "away": "COVENTRY",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-28T17:30:00Z",
+      "home": "IPSWICH TOWN",
+      "away": "ASTON VILLA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T12:00:00Z",
+      "home": "EVERTON",
+      "away": "LIVERPOOL",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T14:05:00Z",
+      "home": "FULHAM",
+      "away": "BOURNEMOUTH",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T14:05:00Z",
+      "home": "BRIGHTON",
+      "away": "NEWCASTLE",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T14:05:00Z",
+      "home": "CR. PALACE",
+      "away": "HULL CITY",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T14:05:00Z",
+      "home": "SUNDERLAND",
+      "away": "TOTTENHAM",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T16:30:00Z",
+      "home": "ARSENAL",
+      "away": "MAN CITY",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     }
     ]
    }
   },
@@ -193,17 +193,17 @@
       "time": "2026-11-21T13:00:00Z",
       "home": "ALAVES",
       "away": "DEPORTIVO",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 3,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T15:15:00Z",
       "home": "RAYO",
       "away": "VALENCIA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 1,
+      "status": "2H"
      },
      {
       "time": "2026-11-21T17:30:00Z",
@@ -350,107 +350,25 @@
    "id": 4332,
    "name": "ИТАЛИЈА",
    "season": "2026-2027",
-   "lastRound": 11,
-   "nextRound": 12,
+   "lastRound": 12,
+   "nextRound": 13,
    "rounds": {
-    "11": [
-     {
-      "time": "2026-11-06T19:45:00Z",
-      "home": "VENEZIA",
-      "away": "UDINESE",
-      "hs": 2,
-      "as": 1,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-07T14:00:00Z",
-      "home": "CAGLIARI",
-      "away": "FROSINONE",
-      "hs": 1,
-      "as": 0,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-07T14:00:00Z",
-      "home": "TORINO",
-      "away": "LECCE",
-      "hs": 1,
-      "as": 1,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-07T17:00:00Z",
-      "home": "PARMA",
-      "away": "BOLOGNA",
-      "hs": 1,
-      "as": 2,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-07T19:45:00Z",
-      "home": "ROMA",
-      "away": "SASSUOLO",
-      "hs": 3,
-      "as": 0,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T11:30:00Z",
-      "home": "NAPOLI",
-      "away": "LAZIO",
-      "hs": 1,
-      "as": 1,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T14:00:00Z",
-      "home": "GENOA",
-      "away": "MILAN",
-      "hs": 1,
-      "as": 2,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T14:00:00Z",
-      "home": "MONZA",
-      "away": "ATALANTA",
-      "hs": 0,
-      "as": 1,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T17:00:00Z",
-      "home": "INTER",
-      "away": "COMO",
-      "hs": 2,
-      "as": 0,
-      "status": "FT"
-     },
-     {
-      "time": "2026-11-08T19:45:00Z",
-      "home": "FIORENTINA",
-      "away": "JUVENTUS",
-      "hs": 2,
-      "as": 2,
-      "status": "FT"
-     }
-    ],
     "12": [
      {
       "time": "2026-11-21T14:00:00Z",
       "home": "LAZIO",
       "away": "LECCE",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 3,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T14:00:00Z",
       "home": "COMO",
       "away": "CAGLIARI",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T17:00:00Z",
@@ -516,6 +434,88 @@
       "as": null,
       "status": "NS"
      }
+    ],
+    "13": [
+     {
+      "time": "2026-11-27T19:45:00Z",
+      "home": "VENEZIA",
+      "away": "BOLOGNA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-28T14:00:00Z",
+      "home": "FROSINONE",
+      "away": "PARMA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-28T17:00:00Z",
+      "home": "TORINO",
+      "away": "LAZIO",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-28T19:45:00Z",
+      "home": "INTER",
+      "away": "GENOA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T11:30:00Z",
+      "home": "UDINESE",
+      "away": "FIORENTINA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T14:00:00Z",
+      "home": "SASSUOLO",
+      "away": "NAPOLI",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T17:00:00Z",
+      "home": "ROMA",
+      "away": "MONZA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-29T19:45:00Z",
+      "home": "COMO",
+      "away": "JUVENTUS",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-30T17:30:00Z",
+      "home": "LECCE",
+      "away": "ATALANTA",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     },
+     {
+      "time": "2026-11-30T19:45:00Z",
+      "home": "CAGLIARI",
+      "away": "MILAN",
+      "hs": null,
+      "as": null,
+      "status": "NS"
+     }
     ]
    }
   },
@@ -539,41 +539,41 @@
       "time": "2026-11-21T14:30:00Z",
       "home": "M'GLADBACH",
       "away": "DORTMUND",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T14:30:00Z",
       "home": "LEVERKUSEN",
       "away": "PADERBORN",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 4,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T14:30:00Z",
       "home": "FRANKFURT",
       "away": "HOFFENHEIM",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T14:30:00Z",
       "home": "UNION BERLIN",
       "away": "LEIPZIG",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 5,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T14:30:00Z",
       "home": "ELVERSBERG",
       "away": "FREIBURG",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T17:30:00Z",
@@ -696,9 +696,9 @@
       "time": "2026-11-21T16:15:00Z",
       "home": "NICE",
       "away": "PSG",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 2,
+      "status": "1H"
      },
      {
       "time": "2026-11-21T19:45:00Z",
@@ -1135,5 +1135,5 @@
    }
   }
  ],
- "updated": "2026-11-21T00:03:13.942Z"
+ "updated": "2026-11-21T16:51:56.331Z"
 }
