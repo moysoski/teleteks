@@ -22,7 +22,7 @@
       "away": "NOTT'M FOR.",
       "hs": 2,
       "as": 0,
-      "status": "2H"
+      "status": "FT"
      },
      {
       "time": "2026-11-21T15:00:00Z",
@@ -30,15 +30,15 @@
       "away": "IPSWICH TOWN",
       "hs": 2,
       "as": 0,
-      "status": "2H"
+      "status": "FT"
      },
      {
       "time": "2026-11-21T15:00:00Z",
       "home": "CHELSEA",
       "away": "LEEDS",
       "hs": 1,
-      "as": 3,
-      "status": "2H"
+      "as": 4,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T15:00:00Z",
@@ -46,23 +46,23 @@
       "away": "SUNDERLAND",
       "hs": 0,
       "as": 0,
-      "status": "2H"
+      "status": "FT"
      },
      {
       "time": "2026-11-21T15:00:00Z",
       "home": "COVENTRY",
       "away": "CR. PALACE",
-      "hs": 2,
+      "hs": 3,
       "as": 2,
-      "status": "2H"
+      "status": "FT"
      },
      {
       "time": "2026-11-21T17:30:00Z",
       "home": "NEWCASTLE",
       "away": "ARSENAL",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 2,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T14:00:00Z",
@@ -203,23 +203,23 @@
       "away": "VALENCIA",
       "hs": 0,
       "as": 1,
-      "status": "2H"
+      "status": "FT"
      },
      {
       "time": "2026-11-21T17:30:00Z",
       "home": "SEVILLA",
       "away": "REAL BETIS",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T20:00:00Z",
       "home": "REAL MADRID",
       "away": "CELTA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T13:00:00Z",
@@ -374,17 +374,17 @@
       "time": "2026-11-21T17:00:00Z",
       "home": "PARMA",
       "away": "ROMA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 5,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T19:45:00Z",
       "home": "NAPOLI",
       "away": "TORINO",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T11:30:00Z",
@@ -579,9 +579,9 @@
       "time": "2026-11-21T17:30:00Z",
       "home": "SCHALKE 04",
       "away": "STUTTGART",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T14:30:00Z",
@@ -696,41 +696,41 @@
       "time": "2026-11-21T16:15:00Z",
       "home": "NICE",
       "away": "PSG",
-      "hs": 1,
-      "as": 2,
-      "status": "1H"
+      "hs": 2,
+      "as": 3,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T19:45:00Z",
       "home": "LILLE",
       "away": "LYON",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T19:45:00Z",
       "home": "MONACO",
       "away": "AUXERRE",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T19:45:00Z",
       "home": "STRASBOURG",
       "away": "BREST",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-21T19:45:00Z",
       "home": "LENS",
       "away": "TOULOUSE",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T14:00:00Z",
@@ -1135,5 +1135,5 @@
    }
   }
  ],
- "updated": "2026-11-21T16:51:56.331Z"
+ "updated": "2026-11-21T23:24:36.367Z"
 }
