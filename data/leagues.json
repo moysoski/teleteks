@@ -68,17 +68,17 @@
       "time": "2026-11-22T14:00:00Z",
       "home": "HULL CITY",
       "away": "BRIGHTON",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T16:30:00Z",
       "home": "LIVERPOOL",
       "away": "MAN UNITED",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 0,
+      "status": "1H"
      },
      {
       "time": "2026-11-23T20:00:00Z",
@@ -225,17 +225,17 @@
       "time": "2026-11-22T13:00:00Z",
       "home": "BARCELONA",
       "away": "VILLARREAL",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 3,
+      "as": 2,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T15:15:00Z",
       "home": "RACING",
       "away": "R. SOCIEDAD",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 3,
+      "as": 2,
+      "status": "2H"
      },
      {
       "time": "2026-11-22T17:30:00Z",
@@ -390,33 +390,33 @@
       "time": "2026-11-22T11:30:00Z",
       "home": "JUVENTUS",
       "away": "VENEZIA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 4,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T14:00:00Z",
       "home": "SASSUOLO",
       "away": "GENOA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 2,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T14:00:00Z",
       "home": "BOLOGNA",
       "away": "UDINESE",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T17:00:00Z",
       "home": "MILAN",
       "away": "FROSINONE",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 0,
+      "status": "1H"
      },
      {
       "time": "2026-11-22T19:45:00Z",
@@ -587,17 +587,17 @@
       "time": "2026-11-22T14:30:00Z",
       "home": "AUGSBURG",
       "away": "MAINZ",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 3,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T16:30:00Z",
       "home": "WERDER",
       "away": "HAMBURG",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 0,
+      "status": "1H"
      }
     ],
     "11": [
@@ -736,17 +736,17 @@
       "time": "2026-11-22T14:00:00Z",
       "home": "PARIS",
       "away": "ANGERS",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 4,
+      "as": 0,
+      "status": "FT"
      },
      {
       "time": "2026-11-22T16:15:00Z",
       "home": "LORIENT",
       "away": "RENNES",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 1,
+      "status": "HT"
      },
      {
       "time": "2026-11-22T19:45:00Z",
@@ -1135,5 +1135,5 @@
    }
   }
  ],
- "updated": "2026-11-21T23:24:36.367Z"
+ "updated": "2026-11-22T17:14:17.058Z"
 }
