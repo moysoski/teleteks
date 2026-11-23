@@ -84,9 +84,9 @@
       "time": "2026-11-23T20:00:00Z",
       "home": "BRENTFORD",
       "away": "EVERTON",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 2,
+      "as": 0,
+      "status": "2H"
      }
     ],
     "12": [
@@ -257,9 +257,9 @@
       "time": "2026-11-23T20:00:00Z",
       "home": "LEVANTE",
       "away": "ELCHE",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 1,
+      "status": "2H"
      }
     ],
     "14": [
@@ -430,9 +430,9 @@
       "time": "2026-11-23T19:45:00Z",
       "home": "MONZA",
       "away": "FIORENTINA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 3,
+      "as": 0,
+      "status": "2H"
      }
     ],
     "13": [
@@ -1135,5 +1135,5 @@
    }
   }
  ],
- "updated": "2026-11-22T23:40:48.053Z"
+ "updated": "2026-11-23T21:33:35.186Z"
 }
