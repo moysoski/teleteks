@@ -862,24 +862,24 @@
       "home": "ARSENAL",
       "away": "DORTMUND",
       "hs": 1,
-      "as": 0,
-      "status": "1H"
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-24T20:00:00Z",
       "home": "MAN CITY",
       "away": "NAPOLI",
-      "hs": 0,
-      "as": 0,
-      "status": "1H"
+      "hs": 2,
+      "as": 2,
+      "status": "FT"
      },
      {
       "time": "2026-11-24T20:00:00Z",
       "home": "LEIPZIG",
       "away": "LENS",
-      "hs": 2,
-      "as": 0,
-      "status": "1H"
+      "hs": 3,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-24T20:00:00Z",
@@ -887,31 +887,31 @@
       "away": "PORTO",
       "hs": 0,
       "as": 1,
-      "status": "1H"
+      "status": "FT"
      },
      {
       "time": "2026-11-24T20:00:00Z",
       "home": "REAL MADRID",
       "away": "PSV",
-      "hs": 0,
-      "as": 0,
-      "status": "1H"
+      "hs": 5,
+      "as": 1,
+      "status": "FT"
      },
      {
       "time": "2026-11-24T20:00:00Z",
       "home": "SLOVAN",
       "away": "REAL BETIS",
       "hs": 0,
-      "as": 0,
-      "status": "1H"
+      "as": 2,
+      "status": "FT"
      },
      {
       "time": "2026-11-24T20:00:00Z",
       "home": "COMO",
       "away": "AEK ATHENS",
-      "hs": 0,
+      "hs": 1,
       "as": 0,
-      "status": "1H"
+      "status": "FT"
      },
      {
       "time": "2026-11-25T17:45:00Z",
@@ -1135,5 +1135,5 @@
    }
   }
  ],
- "updated": "2026-11-24T20:14:32.069Z"
+ "updated": "2026-11-25T04:16:50.108Z"
 }
