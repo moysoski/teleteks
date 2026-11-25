@@ -917,17 +917,17 @@
       "time": "2026-11-25T17:45:00Z",
       "home": "SLAVIA",
       "away": "VILLARREAL",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 0,
+      "as": 1,
+      "status": "2H"
      },
      {
       "time": "2026-11-25T17:45:00Z",
       "home": "SABAH BAKU",
       "away": "BARCELONA",
-      "hs": null,
-      "as": null,
-      "status": "NS"
+      "hs": 1,
+      "as": 4,
+      "status": "2H"
      },
      {
       "time": "2026-11-25T20:00:00Z",
@@ -1135,5 +1135,5 @@
    }
   }
  ],
- "updated": "2026-11-25T04:16:50.108Z"
+ "updated": "2026-11-25T19:18:41.456Z"
 }
